@@ -1,0 +1,31 @@
+
+"This is a person"
+type Person {
+  "this is a bio"
+  bio: String!
+    @ui(
+      component: MARKDOWN,
+      name: "the bio",
+      description: "the authors first name, will be used on the author page",
+      disabled: true
+    )
+    @validations(
+      minlength: 100,
+      maxlength: 300
+    )
+
+  hello: String
+}
+
+type Post {
+  title: String!
+}
+
+# type HomePage @page(preview: "https://preview.site.com") {
+#   hero: Hero
+#   sections: [Sections]
+# }
+
+# type Query {
+#   people: Person!
+# }

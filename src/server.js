@@ -1,5 +1,6 @@
 import { createSchema } from './gen'
 import { GraphQLServer } from 'graphql-yoga'
+import scalars from './scalars'
 
 const options = {
   port: 8000,

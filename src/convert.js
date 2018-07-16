@@ -1,13 +1,15 @@
-const gql = require('graphql-tag')
-const gqlx = require('graphql-anywhere')
+// const gql = require('graphql-tag')
+// const gqlx = require('graphql-anywhere')
 const fs = require('fs')
 const path = require('path')
-const { SchemaDirectiveVisitor, makeExecutableSchema } = require('graphql-tools')
+// const { SchemaDirectiveVisitor, makeExecutableSchema } = require('graphql-tools')
 const {graphql, DirectiveLocation, GraphQLDirective, parse} = require('graphql')
 const { visit } = require('graphql/language')
 
 const loc = path.join(__dirname, '../tipe.graphql')
-const schema = fs.readFileSync(loc, {encoding: 'utf8'})
+let schema = fs.readFileSync(loc, {encoding: 'utf8'})
+
+
 const ast = parse(schema)
 
 const format = () => {

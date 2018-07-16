@@ -1,9 +1,12 @@
-const {GraphQLNonNull, GraphQLList} = require('graphql')
+const {GraphQLNonNull, GraphQLList, GraphQLString} = require('graphql')
 const resolve = () => {}
 
 export const getOne = (type, tree, ast, schema) => {
   return {
     resolve,
+    args: {
+      age: {type: GraphQLString}
+    },
     type: new GraphQLNonNull(schema.getType(type.name))
   }
 }

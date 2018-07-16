@@ -1,7 +1,7 @@
-
-"This is a person"
-type Person {
-  "this is a bio"
+"An author writes posts"
+type Author {
+  id: ID!
+  "The author's bio"
   bio: String!
     @ui(
       component: MARKDOWN,
@@ -13,8 +13,8 @@ type Person {
       minlength: 100,
       maxlength: 300
     )
-
-  hello: String
+  birthday: DateTime @format(format: "mm/dd/yy")
+  # location: LatLong
 }
 
 type Post {

@@ -1,29 +1,43 @@
-"An author writes posts"
-type Author {
-  id: ID!
-  "The author's bio"
+type Author @type {
+  # id: ID!
   bio: String!
     @ui(
-      component: MARKDOWN,
-      name: "the bio",
-      description: "the authors first name, will be used on the author page",
-      disabled: true
+      component: "MARKDOWN",
+      name: "the bio"
     )
     @validations(
       minlength: 100,
       maxlength: 300
     )
-  birthday: DateTime @format(format: "mm/dd/yy")
-  # location: LatLong
+  # birthday: DateTime @date(format: "mm/dd/yy")
 }
 
-type Post {
+type BlogInfo {
   title: String!
+    @ui(
+      component: "SINGLE_LINE_TEXT",
+      name: "title of blog post"
+    )
+    @validations(
+      minlength: 20,
+      maxlength: 100
+    )
 }
 
-# type HomePage @page(preview: "https://preview.site.com") {
-#   hero: Hero
-#   sections: [Sections]
+# type BlogPost @type {
+#   id: ID!
+#   "Who wrote this blog post"
+#   author: Author!
+#   "This is the title of the blog post"
+#   info: BlogInfo! 
+# }
+
+# type BlogPostPage implements Page @page(prodUrl: "https://hello.com", previewUrl: "https://staging.hello.com") {
+#   pageInfo: PageInfo
+# }
+
+# type Travis {
+#   name: String!
 # }
 
 # type Query {

@@ -1,11 +1,10 @@
 import * as queryResolvers from './query'
 import * as mutationResolvers from './mutation'
-import scalars from './scalars'
+import { getSchemaTemplateData } from './convert'
+import {GraphQLObjectType, GraphQLSchema, extendSchema} from 'graphql'
+import { mergeSchemas } from 'graphql-tools'
+// import _ from 'lodash'
 
-const {GraphQLObjectType, GraphQLSchema, typeFromAST, buildASTSchema, GraphQLNonNull, GraphQLList, extendSchema} = require('graphql')
-const format = require('./convert')
-const _ = require('lodash')
-const {mergeSchemas, makeExecutableSchema} = require('graphql-tools')
 const pascal = require('pascal-case')
 const camel = require('camel-case')
 const pluralize = require('pluralize')
@@ -17,46 +16,43 @@ const genNames = (name) => ({
   capPlural: pascal(pluralize(name)),
   camel: camel(name),
   camPlural: camel(pluralize(name)),
+  many: `many${pascal(pluralize(name))}`,
   create: `new${pascal(name)}`,
   remove: `remove${pascal(name)}`
 })
 
-const deafultTypes = `
-  scalar DateTime
-  scalar LatLong
-`
+const ourTypes = {PageInfo: true}
 
-const defaultSchema = makeExecutableSchema({typeDefs: [deafultTypes], resolvers: {...scalars}})
-
-export const createSchema = (connection => {
-  const {tree, ast} = format()
-  // const schema = buildASTSchema(ast, 'Query', 'Mutation')
-  const schema = extendSchema(defaultSchema, ast)
-
+export const createSchema = () => {
+  const {schemaTemplateData, userSchema} = getSchemaTemplateData()
+  const types = schemaTemplateData.types.filter(type => !ourTypes[type.name])
+  const modelTypes = types.filter(type => type.usesDirectives && type.directives.type)
+  console.log(JSON.stringify(modelTypes, null, 2))
+  
   const newSchema = new GraphQLSchema({
     query: new GraphQLObjectType({
       name: 'Query',
-      fields: () =>  _.reduce(tree.types, (fields, type) => {
+      fields: () => modelTypes.reduce((fields, type) => {
         const names = genNames(type.name)
-        fields[names.cap] = queryResolvers.getOne(type, tree, ast, schema)
-        fields[names.camPlural] = queryResolvers.getMany(type, tree, ast, schema)
+        fields[names.cap] = queryResolvers.getOne(type, schemaTemplateData, userSchema, names)
+        fields[names.many] = queryResolvers.getMany(type, schemaTemplateData, userSchema, names)
         return fields
       }, {})
     }),
     mutation: new GraphQLObjectType({
       name: 'Mutation',
-      fields: () => _.reduce(tree.types, (fields, type) => {
+      fields: () => modelTypes.reduce((fields, type) => {
         const names = genNames(type.name)
-        fields[names.create] = mutationResolvers.createOne(type, tree, ast, schema)
-        fields[names.remove] = mutationResolvers.removeOne(type, tree, ast, schema)
+        fields[names.create] = mutationResolvers.createOne(type, schemaTemplateData, userSchema)
+        fields[names.remove] = mutationResolvers.removeOne(type, schemaTemplateData, userSchema)
         return fields
       }, {})
     })
   })
 
   const finalSchema = mergeSchemas({
-    schemas: [schema, newSchema]
+    schemas: [userSchema, newSchema]
   })
 
   return finalSchema
-})
+}

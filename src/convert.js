@@ -1,164 +1,47 @@
-// const gql = require('graphql-tag')
-// const gqlx = require('graphql-anywhere')
+import scalars from './scalars'
+// import { directives } from './directives'
+import { makeExecutableSchema } from 'graphql-tools'
+import { schemaToTemplateContext } from 'graphql-codegen-core'
+import { parse, extendSchema, visit } from 'graphql'
+
 const fs = require('fs')
 const path = require('path')
-// const { SchemaDirectiveVisitor, makeExecutableSchema } = require('graphql-tools')
-const {graphql, DirectiveLocation, GraphQLDirective, parse} = require('graphql')
-const { visit } = require('graphql/language')
-
 const loc = path.join(__dirname, '../tipe.graphql')
-let schema = fs.readFileSync(loc, {encoding: 'utf8'})
 
+export const getSchemaTemplateData = () => {
+  let schema = fs.readFileSync(loc, {encoding: 'utf8'})
 
-const ast = parse(schema)
+  const ast = parse(schema)
+  const deafultTypes = `
+    directive @ui(component: String, name: String) on FIELD
+    directive @validations(minlength: Int, maxlength: Int) on FIELD
+    directive @date(format: String) on FIELD
+    directive @type on OBJECT
 
-const format = () => {
-  const result = {
-    types: {},
-    diff: {}
-  }
-  const newAST = visit(ast, {
-    enter: {
-      ObjectTypeDefinition(node, key) {
-        if (!/Query|Mutation/ig.test(node.name.value)) {
-          result.types[key] = {
-            name: node.name.value,
-            fieldCount: node.fields.length,
-            fields: {}
-          }
-        } else {
-          // console.log(node)
-        }
-      },
-      FieldDefinition(node, key, parent, p, ancestor) {
-        const type = result.types[p[1]]
-        if (type) {
-          const validations = {
-            required: node.type.kind === 'NonNullType'
-          }
+    scalar DateTime
+    scalar LatLong
 
-          const fieldType = validations.required
-            ? node.type.type.name.value
-            : node.type.name.value
+    interface Page {
+      pageInfo: PageInfo
+    }
 
-          const field = {
-            type: fieldType,
-            name: node.name.value,
-            options: {
-              validations: {
-                type: 'validations',
-                args: validations
-              }
-            }
-          }
-          type.fields[key] = field
-        }
-      },
-      Directive(node, key, parent, p) {
-        const field = result.types[p[1]].fields[p[3]]
-        const type = node.name.value
-        const option = {
-          type,
-          args: node.arguments.reduce((r, arg) => {
-            r[arg.name.value] = arg.value.value
-            return r
-          }, {})
-        }
-        if (type === 'validations') {
-          field.options.validations.args = {
-            ...field.options.validations.args,
-            ...option.args
-          }
-        } else {
-          field.options[type] = option
-        }
-      }
-    },
-    leave: {
-      Directive() {
-        return null
+    type PageInfo {
+      title: String
+      description: String
+    }
+  `
+
+  const defaultSchema = makeExecutableSchema({
+    typeDefs: [deafultTypes],
+    resolvers: {
+      ...scalars,
+      Page: {
+        __resolveType() {}
       }
     }
   })
 
-  return {
-    ast: newAST,
-    tree: result
-  }
+  schema = extendSchema(defaultSchema, ast)
+  const schemaTemplateData = schemaToTemplateContext(schema)
+  return {schemaTemplateData, userSchema: schema}
 }
-
-module.exports = format
-
-
-// class LogDirective extends SchemaDirectiveVisitor {
-//   static getDirectiveDeclaration(directiveName, schema) {
-//     return new GraphQLDirective({
-//       name: directiveName,
-//       locations: [
-//         DirectiveLocation.FIELD_DEFINITION
-//       ]
-//     })
-//   }
-
-//   visitFieldDefinition(field) {
-//     const { resolve } = field
-
-//     field.resolve = async function() {
-//       const results = await resolve()
-//       console.log('in directive ', results)
-//       return results
-//     }
-//   }
-// }
-
-// class UIDirective extends SchemaDirectiveVisitor {
-//   static getDirectiveDeclaration(directiveName, schema) {
-//     return new GraphQLDirective({
-//       name: directiveName,
-//       locations: [
-//         DirectiveLocation.FIELD_DEFINITION
-//       ],
-//       args: {
-//         name: {
-//           type: schema.getType('String')
-//         }
-//       }
-//     })
-//   }
-
-//   visitFieldDefinition(field) {
-//     const { resolve } = field
-    
-//     console.log('in ui ', this.args.name)
-//     field.resolve = async function() {
-//       const results = await resolve()
-//       return results
-//     }
-//   }
-// }
-
-// const readySchema = makeExecutableSchema({
-//   typeDefs: schema,
-//   schemaDirectives: {
-//     log: LogDirective,
-//     ui: UIDirective
-//   },
-//   resolvers: {
-//     Query: {
-//       people() {
-//         return {}
-//       }
-//     },
-//     Person: {
-//       firstName() {
-//         return 'hello there'
-//       }
-//     }
-//   }
-// })
-
-// const run = async () => {
-//   const results = await graphql(readySchema, `query {people { firstName }}`)
-//   // console.log(results)
-// }
-// run()

@@ -29,6 +29,6 @@ export const getMany = (type, schemaTemplateData, userSchema) => {
 export const getPage = (type, schemaTemplateData, userSchema) => {
   return {
     resolve,
-    type: userSchema.getType(type.name)
+    type: userSchema.getType(type.name  )
   }
 }

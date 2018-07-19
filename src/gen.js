@@ -3,6 +3,7 @@ import * as mutationResolvers from './mutation'
 import { getSchemaTemplateData } from './convert'
 import {GraphQLObjectType, GraphQLSchema, printSchema, extendSchema} from 'graphql'
 import { mergeSchemas } from 'graphql-tools'
+import { addDefaults } from './utils'
 // import _ from 'lodash'
 
 const pascal = require('pascal-case')
@@ -48,6 +49,9 @@ const makePageActions = (pageTypes, schemaTemplateData, userSchema) => {
 export const createSchema = () => {
   const {schemaTemplateData, userSchema} = getSchemaTemplateData()
   const types = schemaTemplateData.types.filter(type => !ourTypes[type.name])
+    .map(addDefaults)
+
+  console.log(JSON.stringify(types, null, 2))
   const modelTypes = types.filter(type => type.usesDirectives && type.directives.type)
   const pageTypes = types.filter(type => type.usesDirectives && type.directives.page)
 

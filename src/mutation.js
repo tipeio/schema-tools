@@ -1,16 +1,21 @@
 const {GraphQLNonNull, GraphQLList} = require('graphql')
 const resolve = () => {}
 
-export const createOne = (type, schemaTemplateData, userSchema) => {
+export const create = (type, schemaTemplateData, userSchema) => {
   return {
     resolve,
     type: new GraphQLNonNull(userSchema.getType(type.name))
   }
 }
 
-export const removeOne = (type, schemaTemplateData, userSchema) => {
+export const remove = (type, schemaTemplateData, userSchema) => {
   return {
     resolve,
     type: new GraphQLNonNull(userSchema.getType(type.name))
   }
 }
+
+export const update = (type, schemaTemplateData, userSchema) => ({
+  resolve,
+  type: new GraphQLNonNull(userSchema.getType(type.name))
+})

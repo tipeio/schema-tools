@@ -1,41 +1,50 @@
 import {
   GraphQLInputObjectType,
-  GraphQLString,
-  GraphQLInt,
-  GraphQLFloat
+  GraphQLList,
+  GraphQLNonNull
 } from 'graphql'
 
 
-export const createEqualityInput = (gqlType) => {
-  return {
-    _eq: {type: gqlType},
-    _neq: {type: gqlType}
-  }
-}
-
 export const createArgForField = (field, type, schema) => {
-  let fields = {}
-
   switch(field.type) {
     case 'String':
-      const eq = createEqualityInput(schema.getType(field.type))
-      fields = {...fields, ...eq}
+      return schema.getType('StringFilterInput')
+    case 'Int':
+    case 'Float':
+      return schema.getType('NumberFilterInput')
+    case 'DateTime':
+      return schema.getType('DateTimeFilterInput')
+    case 'Boolean':
+      return schema.getType('BooleanFilterInput')
+    case 'ID':
+      return schema.getType('IDFilterInput')
   }
-  return new GraphQLInputObjectType({
-    fields,
-    name: `${type.name}_${field.name}_Input`
-  })
 }
 
 export const createWhereArgs = (type, schema) => {
-  const args = type.fields.reduce((fields, field) => {
-    fields[field.name] = {type: createArgForField(field, type, schema)}
-    return fields
-  }, {})
-  return new GraphQLInputObjectType({
-    name: `${type.name}_Where_Input`,
-    fields: {...args}
+  const args = type.fields.filter(field => field.isScalar)
+    .reduce((fields, field) => {
+      fields[field.name] = {type: createArgForField(field, type, schema)}
+      return fields
+    }, {})
+
+  const typeFields = new GraphQLInputObjectType({
+    name: `${type.name}FiltersInput`,
+    fields: () => ({
+      ...args
+    })
   })
+
+  const whereType = new GraphQLInputObjectType({
+    name: `${type.name}WhereInput`,
+    fields: () => ({
+      _and: {type: new GraphQLList(new GraphQLNonNull(typeFields))},
+      _or: {type: new GraphQLList(new GraphQLNonNull(typeFields))},
+      ...args
+    })
+  })
+
+  return whereType
 }
 
 export const createSortArgs = (type) => {

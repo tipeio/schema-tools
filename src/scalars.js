@@ -47,7 +47,31 @@ export const LatLongScalar = new GraphQLScalarType({
   }
 })
 
+export const UrlScalar = new GraphQLScalarType({
+  name: 'Url',
+  description: 'Url String',
+  serialize(value) {
+    if (validator.isURL(value)) {
+      return value
+    }
+    throw new Error('Url must be a valid url')
+  },
+  parseValue(value) {
+    if (validator.isURL(value)) {
+      return value
+    }
+    throw new Error('Url must be a valid url')
+  },
+  parseLiteral(ast) {
+    if (validator.isURL(ast.value)) {
+      return ast.value
+    }
+    throw new Error('Url must be a valid url')
+  }
+})
+
 export default {
   LatLong: LatLongScalar,
-  DateTime: DateTimeScalar
+  DateTime: DateTimeScalar,
+  Url: UrlScalar
 }

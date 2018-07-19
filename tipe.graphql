@@ -1,5 +1,9 @@
 type Author @type {
-  # id: ID!
+  "Author's first name"
+  firstName: String!
+  "Author's last name"
+  lastName: String!
+  age: Int
   bio: String!
     @ui(
       component: "MARKDOWN",
@@ -9,7 +13,7 @@ type Author @type {
       minlength: 100,
       maxlength: 300
     )
-  # birthday: DateTime @date(format: "mm/dd/yy")
+  birthday: DateTime @date(format: "mm/dd/yy")
 }
 
 type BlogInfo {
@@ -24,22 +28,18 @@ type BlogInfo {
     )
 }
 
-# type BlogPost @type {
-#   id: ID!
-#   "Who wrote this blog post"
-#   author: Author!
-#   "This is the title of the blog post"
-#   info: BlogInfo! 
-# }
+type BlogPost @type {
+  id: ID!
+  "Who wrote this blog post"
+  author: Author!
+  "This is the title of the blog post"
+  info: BlogInfo! 
+}
 
-# type BlogPostPage implements Page @page(prodUrl: "https://hello.com", previewUrl: "https://staging.hello.com") {
-#   pageInfo: PageInfo
-# }
+type BlogPostPage implements Page
+  @page(prodUrl: "https://hello.com", previewUrl: "https://staging.hello.com")
+{
+  pageInfo: PageInfo!
+  posts: [BlogPost]!
+}
 
-# type Travis {
-#   name: String!
-# }
-
-# type Query {
-#   people: Person!
-# }

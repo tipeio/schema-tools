@@ -9,15 +9,18 @@ export const createArgForField = (field, type, schema) => {
   switch(field.type) {
     case 'String':
       return schema.getType('StringFilterInput')
-    case 'Int':
     case 'Float':
-      return schema.getType('NumberFilterInput')
+      return schema.getType('FloatFilterInput')
+    case 'Int':
+      return schema.getType('IntFilterInput')
     case 'DateTime':
       return schema.getType('DateTimeFilterInput')
     case 'Boolean':
       return schema.getType('BooleanFilterInput')
     case 'ID':
       return schema.getType('IDFilterInput')
+    case 'Url':
+      return schema.getType('UrlFilterInput')
   }
 }
 

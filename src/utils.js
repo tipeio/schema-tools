@@ -14,7 +14,7 @@ const fieldDefaults = (type, name) =>({
   Float: {
     ui: {
       name,
-      component: 'NUMBER_INPUT'
+      component: 'NUMBER_SELECT'
     }
   },
   DateTime: {

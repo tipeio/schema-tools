@@ -14,12 +14,14 @@ type Author @type {
       maxlength: 300
     )
   birthday: DateTime @date(format: "mm/dd/yy")
+  linkedInUrl: Url
+  friend: Author
 }
 
 type BlogInfo {
   title: String!
     @ui(
-      component: "SINGLE_LINE_TEXT",
+      component: "SINGLE_LINE",
       name: "title of blog post"
     )
     @validations(

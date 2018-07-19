@@ -51,7 +51,6 @@ export const createSchema = () => {
   const types = schemaTemplateData.types.filter(type => !ourTypes[type.name])
     .map(addDefaults)
 
-  console.log(JSON.stringify(types, null, 2))
   const modelTypes = types.filter(type => type.usesDirectives && type.directives.type)
   const pageTypes = types.filter(type => type.usesDirectives && type.directives.page)
 

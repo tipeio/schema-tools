@@ -46,15 +46,26 @@ export const getSchemaTemplateData = () => {
       _ends_with: String
     }
 
-    input NumberFilterInput {
-      _eq: String
-      _neq: String
-      _gt: String
-      _lt: String
-      _gte: String
-      _lte: String
-      _in: [String!]
-      _nin: [String!]
+    input FloatFilterInput {
+      _eq: Float
+      _neq: Float
+      _gt: Float
+      _lt: Float
+      _gte: Float
+      _lte: Float
+      _in: [Float!]
+      _nin: [Float!]
+    }
+
+    input IntFilterInput {
+      _eq: Int
+      _neq: Int
+      _gt: Int
+      _lt: Int
+      _gte: Int
+      _lte: Int
+      _in: [Int!]
+      _nin: [Int!]
     }
 
     input DateTimeFilterInput {
@@ -76,6 +87,15 @@ export const getSchemaTemplateData = () => {
     input IDFilterInput {
       _eq: ID
       _neq: ID
+    }
+
+    input UrlFilterInput {
+      _eq: String
+      _neq: String
+      _in: [String!]
+      _nin: [String!]
+      _contains: String
+      _does_not_contain: String
     }
   `
 

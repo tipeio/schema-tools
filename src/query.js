@@ -1,12 +1,17 @@
 import { createWhereArgs } from './args'
 import { parseResolveInfo, simplify } from 'graphql-parse-resolve-info'
 import {GraphQLNonNull, GraphQLList} from 'graphql'
+import { genFakeContent } from './fake'
 
 const resolve = () => {}
 
 export const getOne = (type, schemaTemplateData, userSchema) => {
   return {
-    resolve,
+    resolve(_, args, ctx, info) {
+      const parsedInfo = parseResolveInfo(info)
+      const queryInfo = simplify(parsedInfo, userSchema.getType(type.name))
+      return genFakeContent(queryInfo, type.fields)
+    },
     type: new GraphQLNonNull(userSchema.getType(type.name))
   }
 }
@@ -16,8 +21,12 @@ export const getMany = (type, schemaTemplateData, userSchema) => {
     resolve(_, args, ctx, info) {
       const parsedInfo = parseResolveInfo(info)
       const queryInfo = simplify(parsedInfo, userSchema.getType(type.name))
-      console.log(JSON.stringify(queryInfo, null, 2))
-      return null
+      
+      return [
+        genFakeContent(queryInfo, type.fields),
+        genFakeContent(queryInfo, type.fields),
+        genFakeContent(queryInfo, type.fields)
+      ]
     },
     args: {
       where: {type: createWhereArgs(type, userSchema)}
@@ -29,6 +38,6 @@ export const getMany = (type, schemaTemplateData, userSchema) => {
 export const getPage = (type, schemaTemplateData, userSchema) => {
   return {
     resolve,
-    type: userSchema.getType(type.name  )
+    type: userSchema.getType(type.name)
   }
 }

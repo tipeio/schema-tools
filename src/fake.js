@@ -71,8 +71,12 @@ export const genFakeContent = (infoObject, fields, result = {}) => {
   return _.reduce(infoObject.fieldsByTypeName, (_result, type) => {
     _.forEach(type, (field) => {
       if (_.isEmpty(field.fieldsByTypeName)) {
+        // todo: nested field names are the same as field in fields e.g BlogPost.info -> BlogInfo.title
         const fieldInfo = getField(fields, field.name)
-        _result[field.name] = getConentForType(fieldInfo.directives.ui.component, fieldInfo.isArray)
+        // check if field has ensure ui description
+        if (fieldInfo && fieldInfo.directives.ui && fieldInfo.directives.ui.component) {
+          _result[field.name] = getConentForType(fieldInfo.directives.ui.component, fieldInfo.isArray)
+        }
       } else {
         _result[field.name] = genFakeContent(field, fields, _result)
       }

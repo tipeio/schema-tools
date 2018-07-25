@@ -8,7 +8,6 @@ const getField = (fields, field, typeName, schemaContext) => {
     const type = _.find(schemaContext.types, t => t.name === typeName)
     result = mixDefaults(_.find(type.fields, _field => _field.name === field.name))
   }
-  console.log(result)
   return result
 }
 
@@ -90,17 +89,8 @@ export const genFakeContent = (infoObject, fields, schemaContext, result = {}) =
   return _.reduce(infoObject.fieldsByTypeName, (_result, type, typeName) => {
     _.forEach(type, (field) => {
       if (_.isEmpty(field.fieldsByTypeName)) {
-<<<<<<< HEAD
-        // todo: nested field names are the same as field in fields e.g BlogPost.info -> BlogInfo.title
-        const fieldInfo = getField(fields, field.name)
-        // check if field has ensure ui description
-        if (fieldInfo && fieldInfo.directives.ui && fieldInfo.directives.ui.component) {
-          _result[field.name] = getConentForType(fieldInfo.directives.ui.component, fieldInfo.isArray)
-        }
-=======
         const fieldInfo = getField(fields, field, typeName, schemaContext)
         _result[field.name] = getConentForType(fieldInfo.directives.ui.component, fieldInfo.isArray)
->>>>>>> :fire:
       } else {
         _result[field.name] = genFakeContent(field, fields, schemaContext, _result)
       }

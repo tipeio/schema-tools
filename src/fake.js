@@ -1,9 +1,15 @@
 import _ from 'lodash'
-import { makeRemoteExecutableSchema } from 'graphql-tools';
+import { mixDefaults } from './utils'
 const Chance = require('chance')
 
-const getField = (fields, fieldName) => {
-  return _.find(fields, field => field.name === fieldName)
+const getField = (fields, field, typeName, schemaContext) => {
+  let result = _.find(fields, _field => _field.name === field.name)
+  if (!result) {
+    const type = _.find(schemaContext.types, t => t.name === typeName)
+    result = mixDefaults(_.find(type.fields, _field => _field.name === field.name))
+  }
+  console.log(result)
+  return result
 }
 
 const makeMarkdown = (isArray) => {
@@ -48,6 +54,17 @@ const makeUrl = (isArray) => {
     : chance.url()
 }
 
+const makeAsset = (isArray) => {
+  const asset = {
+    url: makeUrl(false),
+    name: makeSingleLineText(false),
+    type: 'png'
+  }
+  return isArray
+    ? [asset, asset]
+    : asset
+}
+
 const getConentForType = (component, isArray) => {
   switch(component) {
     case 'MARKDOWN':
@@ -62,23 +79,30 @@ const getConentForType = (component, isArray) => {
       return makeEamil(isArray)
     case 'URL_INPUT':
       return makeUrl(isArray)
+    case 'ASSET_PICKER':
+      return makeAsset(isArray)
   }
 }
 
 const chance = new Chance()
 
-export const genFakeContent = (infoObject, fields, result = {}) => {
-  return _.reduce(infoObject.fieldsByTypeName, (_result, type) => {
+export const genFakeContent = (infoObject, fields, schemaContext, result = {}) => {
+  return _.reduce(infoObject.fieldsByTypeName, (_result, type, typeName) => {
     _.forEach(type, (field) => {
       if (_.isEmpty(field.fieldsByTypeName)) {
+<<<<<<< HEAD
         // todo: nested field names are the same as field in fields e.g BlogPost.info -> BlogInfo.title
         const fieldInfo = getField(fields, field.name)
         // check if field has ensure ui description
         if (fieldInfo && fieldInfo.directives.ui && fieldInfo.directives.ui.component) {
           _result[field.name] = getConentForType(fieldInfo.directives.ui.component, fieldInfo.isArray)
         }
+=======
+        const fieldInfo = getField(fields, field, typeName, schemaContext)
+        _result[field.name] = getConentForType(fieldInfo.directives.ui.component, fieldInfo.isArray)
+>>>>>>> :fire:
       } else {
-        _result[field.name] = genFakeContent(field, fields, _result)
+        _result[field.name] = genFakeContent(field, fields, schemaContext, _result)
       }
     })
     return _result

@@ -1,47 +1,37 @@
-type Author @type {
-  "Author's first name"
-  firstName: String!
-  "Author's last name"
-  lastName: String!
-  age: Int
-  bio: String!
-    @ui(
-      component: "MARKDOWN",
-      name: "the bio"
-    )
-    @validations(
-      minlength: 100,
-      maxlength: 300
-    )
-  birthday: DateTime @date(format: "mm/dd/yy")
-  linkedInUrl: Url
-  friend: Author
-}
-
-type BlogInfo {
+type Hero @type {
+  "This title will be the main text on the her section"
   title: String!
     @ui(
       component: "SINGLE_LINE",
-      name: "title of blog post"
+      name: "Title for the hero"
     )
     @validations(
-      minlength: 20,
-      maxlength: 100
+      maxlength: 120
     )
+  mainImg: Asset
+  description: String
+}
+
+type HomePage implements Page
+@page(url: "https://mydemopage.com") {
+  pageInfo: PageInfo!
+  heroSection: Hero!
+}
+
+type Social {
+  twitter: Url
+  linkedin: Url
+}
+
+type Author @type {
+  firstName: String!
+  lastName: String!
+  socialInfo: Social!
+  bio: String!
 }
 
 type BlogPost @type {
-  id: ID!
-  "Who wrote this blog post"
+  title: String!
+  postContent: String!
   author: Author!
-  "This is the title of the blog post"
-  info: BlogInfo! 
 }
-
-type BlogPostPage implements Page
-  @page(prodUrl: "https://hello.com", previewUrl: "https://staging.hello.com")
-{
-  pageInfo: PageInfo!
-  posts: [BlogPost]!
-}
-

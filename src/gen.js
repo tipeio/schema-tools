@@ -23,7 +23,7 @@ const genNames = (name) => ({
   update: `update${pascal(name)}`
 })
 
-const ourTypes = {PageInfo: true}
+const ourTypes = {PageInfo: false, Asset: false}
 
 const makeModelActions = (modelTypes, schemaTemplateData, userSchema) => {
   return modelTypes.reduce((fields, type) => {
@@ -53,7 +53,6 @@ export const createSchema = () => {
 
   const modelTypes = types.filter(type => type.usesDirectives && type.directives.type)
   const pageTypes = types.filter(type => type.usesDirectives && type.directives.page)
-
   const modelActions = makeModelActions(modelTypes, schemaTemplateData, userSchema)
   const pageActions = makePageActions(pageTypes, schemaTemplateData, userSchema)
   const newSchema = new GraphQLSchema({

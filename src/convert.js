@@ -26,6 +26,13 @@ export const getSchemaTemplateData = () => {
     interface Page {
       pageInfo: PageInfo!
     }
+
+    type Asset {
+      url: Url!
+      name: String!
+      type: String!
+    }
+    
     type PageInfo {
       title: String
       description: String
@@ -90,12 +97,12 @@ export const getSchemaTemplateData = () => {
     }
 
     input UrlFilterInput {
-      _eq: String
-      _neq: String
-      _in: [String!]
-      _nin: [String!]
-      _contains: String
-      _does_not_contain: String
+      _eq: Url
+      _neq: Url
+      _in: [Url!]
+      _nin: [Url!]
+      _contains: Url
+      _does_not_contain: Url
     }
   `
 

@@ -8,17 +8,25 @@ type Hero @type {
     @validations(
       maxlength: 120
     )
-  mainImg: Asset
   "this text will be right underneath the hero title on the site"
   description: String!
     @ui(
       component: "MARKDOWN",
-      name: "hero main body"
-    ) 
+      name: "description"
+    )
+  button: String!
+    @ui(
+      component: "SINGLE_LINE",
+      name: "button"
+    )
+    @validations(
+      maxlength: 50
+    )
+  mainImg: Asset 
 }
 
 type HomePage implements Page
-@page(url: "https://mydemopage.com") {
+@page(url: "https://justgetblockaiappnow.com") {
   pageInfo: PageInfo!
   heroSection: Hero!
 }

@@ -1,7 +1,7 @@
 {
   "name": "@tipe/schema-tools",
   "version": "0.0.1",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
     "build": "babel src --out-dir dist",
@@ -17,7 +17,8 @@
     "lint": "eslint --ext .js, src",
     "lint-autofix": "yarn lint --fix",
     "eslint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
-    "precommit": "lint-staged && yarn test"
+    "precommit": "lint-staged && yarn test",
+    "deploy": "yarn build && yarn publish"
   },
   "lint-staged": {
     "linters": {

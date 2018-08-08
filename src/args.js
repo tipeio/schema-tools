@@ -1,12 +1,7 @@
-import {
-  GraphQLInputObjectType,
-  GraphQLList,
-  GraphQLNonNull
-} from 'graphql'
-
+import { GraphQLInputObjectType, GraphQLList, GraphQLNonNull } from 'graphql'
 
 export const createArgForField = (field, type, schema) => {
-  switch(field.type) {
+  switch (field.type) {
     case 'String':
       return schema.getType('StringFilterInput')
     case 'Float':
@@ -25,9 +20,10 @@ export const createArgForField = (field, type, schema) => {
 }
 
 export const createWhereArgs = (type, schema) => {
-  const args = type.fields.filter(field => field.isScalar)
+  const args = type.fields
+    .filter(field => field.isScalar)
     .reduce((fields, field) => {
-      fields[field.name] = {type: createArgForField(field, type, schema)}
+      fields[field.name] = { type: createArgForField(field, type, schema) }
       return fields
     }, {})
 
@@ -41,8 +37,8 @@ export const createWhereArgs = (type, schema) => {
   const whereType = new GraphQLInputObjectType({
     name: `${type.name}WhereInput`,
     fields: () => ({
-      _and: {type: new GraphQLList(new GraphQLNonNull(typeFields))},
-      _or: {type: new GraphQLList(new GraphQLNonNull(typeFields))},
+      _and: { type: new GraphQLList(new GraphQLNonNull(typeFields)) },
+      _or: { type: new GraphQLList(new GraphQLNonNull(typeFields)) },
       ...args
     })
   })
@@ -50,10 +46,6 @@ export const createWhereArgs = (type, schema) => {
   return whereType
 }
 
-export const createSortArgs = (type) => {
+export const createSortArgs = type => {}
 
-}
-
-export const createPaginateArgs = (type) => {
-  
-}
+export const createPaginateArgs = type => {}

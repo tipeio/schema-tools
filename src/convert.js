@@ -2,14 +2,14 @@ import scalars from './scalars'
 // import { directives } from './directives'
 import { makeExecutableSchema } from 'graphql-tools'
 import { schemaToTemplateContext } from 'graphql-codegen-core'
-import { parse, extendSchema, visit } from 'graphql'
+import { parse, extendSchema } from 'graphql'
 
 const fs = require('fs')
 const path = require('path')
 const loc = path.join(__dirname, '../tipe.graphql')
 
 export const getSchemaTemplateData = () => {
-  let schema = fs.readFileSync(loc, {encoding: 'utf8'})
+  let schema = fs.readFileSync(loc, { encoding: 'utf8' })
 
   const ast = parse(schema)
   const deafultTypes = `
@@ -118,5 +118,5 @@ export const getSchemaTemplateData = () => {
 
   schema = extendSchema(defaultSchema, ast)
   const schemaTemplateData = schemaToTemplateContext(schema)
-  return {schemaTemplateData, userSchema: schema}
+  return { schemaTemplateData, userSchema: schema }
 }

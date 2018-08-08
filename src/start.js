@@ -1,3 +1,4 @@
+import { ApolloServer } from 'apollo-server'
 import { createSchema } from './generate'
 
 const types = `
@@ -16,8 +17,24 @@ const resolvers = {
   },
   getMany() {
     return resolve
+  },
+  create() {
+    return resolve
+  },
+  remove() {
+    return resolve
+  },
+  update() {
+    return resolve
   }
 }
 
 const schema = createSchema(types, resolvers)
-console.log(schema)
+const server = new ApolloServer({ schema })
+
+server
+  .listen()
+  .then(({ url }) => {
+    console.log(`server on ${url}`)
+  })
+  .catch(e => console.error(e))

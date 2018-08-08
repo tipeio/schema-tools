@@ -43,6 +43,7 @@
   },
   "devDependencies": {
     "@tipe/eslint-config-tipe": "^1.0.1",
+    "apollo-server": "^2.0.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-jest": "^23.4.2",

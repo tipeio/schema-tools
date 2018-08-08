@@ -146,22 +146,28 @@ const composeSchema = (queries, mutations, userSchema) => {
  * @param {String} schemaString Tipe Graphql schema string
  * @param {Obejct} resolvers Objet containing generic resolvers for mapping
  */
-export const createSchema = (schemaString, resolvers) => {
+export const createSchema = (schemaString, providedResolvers) => {
   const { schemaTemplateData, userSchema } = processSchemaString(schemaString)
   const types = removeOurTypes(schemaTemplateData.types)
   const { models, pages } = seperateTypes(types)
+
+  if (!models.length || !pages.length) {
+    throw new Error(
+      'You must create at least one @type or @page type in your schema'
+    )
+  }
 
   const modelActions = makeModelActions(
     models,
     schemaTemplateData,
     userSchema,
-    resolvers
+    providedResolvers
   )
   const pageActions = makePageActions(
     pages,
     schemaTemplateData,
     userSchema,
-    resolvers
+    providedResolvers
   )
 
   const queries = { ...modelActions.queries, ...pageActions.queries }

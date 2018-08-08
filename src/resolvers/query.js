@@ -3,14 +3,14 @@ import { GraphQLNonNull, GraphQLList, GraphQLString, GraphQLInt } from 'graphql'
 
 export const getOne = (resolver, type, schemaTemplateData, userSchema) => {
   return {
-    resolve: resolver(type, schemaTemplateData, userSchema),
+    resolve: resolver(type, schemaTemplateData, userSchema).resolve,
     type: new GraphQLNonNull(userSchema.getType(type.name))
   }
 }
 
 export const getMany = (resolver, type, schemaTemplateData, userSchema) => {
   return {
-    resolve: resolver(type, schemaTemplateData, userSchema),
+    resolve: resolver(type, schemaTemplateData, userSchema).resolve,
     args: {
       where: { type: createWhereArgs(type, userSchema) },
       order_by: {
@@ -37,7 +37,7 @@ export const getMany = (resolver, type, schemaTemplateData, userSchema) => {
 
 export const getPage = (resolver, type, schemaTemplateData, userSchema) => {
   return {
-    resolve: resolver(type, schemaTemplateData, userSchema),
+    resolve: resolver(type, schemaTemplateData, userSchema).resolve,
     type: new GraphQLNonNull(userSchema.getType(type.name))
   }
 }

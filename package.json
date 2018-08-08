@@ -1,12 +1,13 @@
 {
-  "name": "gql-json",
-  "version": "1.0.0",
-  "main": "index.js",
+  "name": "@tipe/schema-tools",
+  "version": "0.0.1",
+  "main": "src/index.js",
   "license": "MIT",
   "scripts": {
     "build": "babel src --out-dir dist",
     "start": "yarn rm && yarn build && node dist/server.js",
     "rm": "rm -rf dist",
+    "test": "jest",
     "restart": "yarn notify && yarn start",
     "notify": "osascript -e 'display notification \"gql app restarted\" with title \"Nodemon\"'",
     "dev": "nodemon --exec yarn restart",
@@ -29,13 +30,19 @@
     "@tipe/eslint-config-tipe": "^1.0.1",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
-    "babel-plugin-transform-decorators": "^6.24.1",
+    "babel-jest": "^23.4.2",
     "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-decorators": "^6.24.1",
     "babel-plugin-transform-decorators-legacy": "^1.3.5",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "jest": "^23.4.2",
     "nodemon": "^1.18.3",
     "prettier": "^1.14.0"
+  },
+  "jest": {
+    "verbose": true,
+    "testURL": "http://localhost/",
+    "testEnvironment": "node"
   }
 }

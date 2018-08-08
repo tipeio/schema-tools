@@ -1,3 +1,7 @@
+import scalars from './scalars'
+import scalars from './scalars'
+import { makeExecutableSchema } from 'graphql-tools'
+
 export const typeDefs = `
 directive @ui(component: String, name: String) on FIELD
 directive @validations(minlength: Int, maxlength: Int) on FIELD
@@ -91,3 +95,12 @@ input UrlFilterInput {
   _does_not_contain: Url
 }
 `
+export const baseExecutableSchema = makeExecutableSchema({
+  typeDefs: [typeDefs],
+  resolvers: {
+    ...scalars,
+    Page: {
+      __resolveType() {}
+    }
+  }
+})

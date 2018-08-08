@@ -1,4 +1,7 @@
 import { components } from './constants'
+const pascal = require('pascal-case')
+const camel = require('camel-case')
+const pluralize = require('pluralize')
 
 const fieldDefaults = (type, name) =>
   ({
@@ -72,3 +75,16 @@ export const addDefaults = abstractType => {
     fields
   }
 }
+
+export const genNames = name => ({
+  name,
+  plural: pluralize(name),
+  cap: pascal(name),
+  capPlural: pascal(pluralize(name)),
+  camel: camel(name),
+  camPlural: camel(pluralize(name)),
+  many: `${camel(pluralize(name))}`,
+  create: `new${pascal(name)}`,
+  remove: `remove${pascal(name)}`,
+  update: `update${pascal(name)}`
+})

@@ -1,6 +1,6 @@
 import { GraphQLInputObjectType, GraphQLList, GraphQLNonNull } from 'graphql'
 
-export const createArgForField = (field, type, schema) => {
+export const createArgForField = (field, schema) => {
   switch (field.type) {
     case 'String':
       return schema.getType('StringFilterInput')
@@ -23,7 +23,7 @@ export const createWhereArgs = (type, schema) => {
   const args = type.fields
     .filter(field => field.isScalar)
     .reduce((fields, field) => {
-      fields[field.name] = { type: createArgForField(field, type, schema) }
+      fields[field.name] = { type: createArgForField(field, schema) }
       return fields
     }, {})
 

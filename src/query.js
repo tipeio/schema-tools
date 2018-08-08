@@ -1,9 +1,7 @@
 import { createWhereArgs } from './args'
 import { parseResolveInfo, simplify } from 'graphql-parse-resolve-info'
-import {GraphQLNonNull, GraphQLList, GraphQLString, GraphQLInt} from 'graphql'
+import { GraphQLNonNull, GraphQLList, GraphQLString, GraphQLInt } from 'graphql'
 import { genFakeContent } from './fake'
-
-const resolve = () => {}
 
 export const getOne = (type, schemaTemplateData, userSchema) => {
   return {
@@ -29,10 +27,11 @@ export const getMany = (type, schemaTemplateData, userSchema) => {
       ]
     },
     args: {
-      where: {type: createWhereArgs(type, userSchema)},
+      where: { type: createWhereArgs(type, userSchema) },
       order_by: {
         type: new GraphQLList(new GraphQLNonNull(GraphQLString)),
-        description: 'List of fields to order the results by. Defaults to ["+updated_at"]',
+        description:
+          'List of fields to order the results by. Defaults to ["+updated_at"]',
         defaultValue: ['+updated_at']
       },
       limit: {
@@ -42,7 +41,8 @@ export const getMany = (type, schemaTemplateData, userSchema) => {
       },
       skip: {
         type: GraphQLInt,
-        description: 'For pagination, how many items to skip to continue the next page',
+        description:
+          'For pagination, how many items to skip to continue the next page',
         defaultValue: 0
       }
     },
@@ -57,6 +57,6 @@ export const getPage = (type, schemaTemplateData, userSchema) => {
       const queryInfo = simplify(parsedInfo, userSchema.getType(type.name))
       return genFakeContent(queryInfo, type.fields, schemaTemplateData)
     },
-    type:  new GraphQLNonNull(userSchema.getType(type.name))
+    type: new GraphQLNonNull(userSchema.getType(type.name))
   }
 }

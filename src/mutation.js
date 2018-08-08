@@ -1,4 +1,4 @@
-const {GraphQLNonNull, GraphQLList} = require('graphql')
+const { GraphQLNonNull } = require('graphql')
 const resolve = () => {}
 
 export const create = (type, schemaTemplateData, userSchema) => {

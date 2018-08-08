@@ -1,5 +1,4 @@
 import scalars from './scalars'
-import scalars from './scalars'
 import { makeExecutableSchema } from 'graphql-tools'
 
 export const typeDefs = `

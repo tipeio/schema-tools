@@ -8,6 +8,9 @@ export const components = [
   'LINK_PICKER',
   'MARKDOWN',
   'SWITCH'
-].reduce((mem, component) => (mem[component] = component), {})
+].reduce((mem, component) => {
+  mem[component] = component
+  return mem
+}, {})
 
 export const ourTypes = { PageInfo: false, Asset: false }

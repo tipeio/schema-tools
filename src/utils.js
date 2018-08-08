@@ -3,7 +3,7 @@ const pascal = require('pascal-case')
 const camel = require('camel-case')
 const pluralize = require('pluralize')
 
-const fieldDefaults = (type, name) =>
+export const fieldDefaults = (type, name) =>
   ({
     String: {
       ui: {
@@ -55,9 +55,11 @@ const fieldDefaults = (type, name) =>
     }
   }[type])
 
+// TODO: need to validate if the type can use given component
 export const mixDefaults = field => {
   const { type, name } = field
   const defaults = fieldDefaults(type, name)
+
   return {
     ...field,
     directives: {
@@ -78,7 +80,7 @@ export const addDefaults = abstractType => {
 
 export const genNames = name => ({
   name,
-  plural: pluralize(name),
+  plural: camel(pluralize(name)),
   cap: pascal(name),
   capPlural: pascal(pluralize(name)),
   camel: camel(name),

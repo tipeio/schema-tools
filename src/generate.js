@@ -3,7 +3,7 @@ import { GraphQLObjectType, GraphQLSchema } from 'graphql'
 import { addDefaults, genNames } from './utils'
 import { ourTypes } from './constants'
 import { processSchemaString } from './transform'
-
+import * as resolvers from './resolvers'
 /**
  * Formats query and mutation fields for the model types.
  * Making sure they are ready for final graphql schema creation.
@@ -18,35 +18,38 @@ export const makeModelActions = (
   models,
   schemaTemplateData,
   userSchema,
-  resolvers
+  providedResolvers
 ) => {
   return models.reduce(
     (fields, type) => {
       const names = genNames(type.name)
       fields.queries[names.cap] = resolvers.getOne(
+        providedResolvers.getOne,
         type,
         schemaTemplateData,
-        userSchema,
-        names
+        userSchema
       )
       fields.queries[names.many] = resolvers.getMany(
+        providedResolvers.getMany,
         type,
         schemaTemplateData,
-        userSchema,
-        names
+        userSchema
       )
 
       fields.mutations[names.create] = resolvers.create(
+        providedResolvers.create,
         type,
         schemaTemplateData,
         userSchema
       )
       fields.mutations[names.remove] = resolvers.remove(
+        providedResolvers.remove,
         type,
         schemaTemplateData,
         userSchema
       )
       fields.mutations[names.update] = resolvers.update(
+        providedResolvers.update,
         type,
         schemaTemplateData,
         userSchema

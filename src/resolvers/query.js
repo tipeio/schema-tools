@@ -1,31 +1,16 @@
-import { createWhereArgs } from './args'
-import { parseResolveInfo, simplify } from 'graphql-parse-resolve-info'
+import { createWhereArgs } from '../args'
 import { GraphQLNonNull, GraphQLList, GraphQLString, GraphQLInt } from 'graphql'
-import { genFakeContent } from './fake'
 
-export const getOne = (type, schemaTemplateData, userSchema) => {
+export const getOne = (resolver, type, schemaTemplateData, userSchema) => {
   return {
-    resolve(_, args, ctx, info) {
-      const parsedInfo = parseResolveInfo(info)
-      const queryInfo = simplify(parsedInfo, userSchema.getType(type.name))
-      return genFakeContent(queryInfo, type.fields, schemaTemplateData)
-    },
+    resolve: resolver(type, schemaTemplateData, userSchema),
     type: new GraphQLNonNull(userSchema.getType(type.name))
   }
 }
 
-export const getMany = (type, schemaTemplateData, userSchema) => {
+export const getMany = (resolver, type, schemaTemplateData, userSchema) => {
   return {
-    resolve(_, args, ctx, info) {
-      const parsedInfo = parseResolveInfo(info)
-      const queryInfo = simplify(parsedInfo, userSchema.getType(type.name))
-
-      return [
-        genFakeContent(queryInfo, type.fields, schemaTemplateData),
-        genFakeContent(queryInfo, type.fields, schemaTemplateData),
-        genFakeContent(queryInfo, type.fields, schemaTemplateData)
-      ]
-    },
+    resolve: resolver(type, schemaTemplateData, userSchema),
     args: {
       where: { type: createWhereArgs(type, userSchema) },
       order_by: {
@@ -50,13 +35,9 @@ export const getMany = (type, schemaTemplateData, userSchema) => {
   }
 }
 
-export const getPage = (type, schemaTemplateData, userSchema) => {
+export const getPage = (resolver, type, schemaTemplateData, userSchema) => {
   return {
-    resolve(_, args, ctx, info) {
-      const parsedInfo = parseResolveInfo(info)
-      const queryInfo = simplify(parsedInfo, userSchema.getType(type.name))
-      return genFakeContent(queryInfo, type.fields, schemaTemplateData)
-    },
+    resolve: resolver(type, schemaTemplateData, userSchema),
     type: new GraphQLNonNull(userSchema.getType(type.name))
   }
 }

@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "build": "babel src --out-dir dist",
-    "start": "yarn rm && yarn build && node dist/server.js",
+    "start": "yarn rm && yarn build && node dist/start.js",
     "rm": "rm -rf dist",
     "test": "jest",
     "restart": "yarn notify && yarn start",

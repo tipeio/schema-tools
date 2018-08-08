@@ -1,6 +1,6 @@
 import { schemaToTemplateContext } from 'graphql-codegen-core'
 import { parse, extendSchema } from 'graphql'
-import { baseExecutbaleSchema } from './baseSchema'
+import { baseExecutableSchema } from './baseSchema'
 
 export const mergeSchemaWithAst = (schema, ast) => extendSchema(schema, ast)
 export const createSchemaTemplateData = schema =>
@@ -22,8 +22,7 @@ export const processSchemaString = schema => {
   const ast = schemaStringToAst(schema)
 
   // merge the default schema with given AST to ensure extensions work
-  const userSchema = mergeSchemaWithAst(baseExecutbaleSchema, ast)
-
-  const schemaTemplateData = createSchemaTemplateData(schema)
+  const userSchema = mergeSchemaWithAst(baseExecutableSchema, ast)
+  const schemaTemplateData = createSchemaTemplateData(userSchema)
   return { schemaTemplateData, userSchema, userAst: ast }
 }

@@ -11,7 +11,21 @@
     "restart": "yarn notify && yarn start",
     "notify": "osascript -e 'display notification \"gql app restarted\" with title \"Nodemon\"'",
     "dev": "nodemon --exec yarn restart",
-    "inspect": "yarn rm && yarn build && node inspect dist/server.js"
+    "preversion": "yarn test",
+    "postversion": "git push origin master && git push --tags",
+    "inspect": "yarn rm && yarn build && node inspect dist/server.js",
+    "lint": "eslint --ext .js, src",
+    "lint-autofix": "yarn lint --fix",
+    "eslint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
+    "precommit": "lint-staged && yarn test"
+  },
+  "lint-staged": {
+    "linters": {
+      "*.{js}": [
+        "eslint --fix",
+        "git add"
+      ]
+    }
   },
   "dependencies": {
     "camel-case": "^3.0.0",
@@ -37,6 +51,7 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "jest": "^23.4.2",
+    "lint-staged": "^7.2.0",
     "nodemon": "^1.18.3",
     "prettier": "^1.14.0"
   },

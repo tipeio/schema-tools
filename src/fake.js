@@ -6,26 +6,24 @@ const getField = (fields, field, typeName, schemaContext) => {
   let result = _.find(fields, _field => _field.name === field.name)
   if (!result) {
     const type = _.find(schemaContext.types, t => t.name === typeName)
-    result = mixDefaults(_.find(type.fields, _field => _field.name === field.name))
+    result = mixDefaults(
+      _.find(type.fields, _field => _field.name === field.name)
+    )
   }
   return result
 }
 
-const makeMarkdown = (isArray) => {
-  const paragraph = chance.paragraph({sentences: 10})
+const makeMarkdown = isArray => {
+  const paragraph = chance.paragraph({ sentences: 10 })
   const text = `## ${chance.word()}\n${paragraph}`
-  return isArray
-    ? [text, text, text]
-    : text
+  return isArray ? [text, text, text] : text
 }
 
-const makeSingleLineText = (isArray) => {
-  return isArray
-    ? [chance.word(), chance.word(), chance.word()]
-    : chance.word()
+const makeSingleLineText = isArray => {
+  return isArray ? [chance.word(), chance.word(), chance.word()] : chance.word()
 }
 
-const makeNumberSelect = (isArray) => {
+const makeNumberSelect = isArray => {
   return isArray
     ? [
         chance.natural({ min: 1, max: 100000 }),
@@ -35,37 +33,36 @@ const makeNumberSelect = (isArray) => {
     : chance.natural({ min: 1, max: 100000 })
 }
 
-const makeCalendar = (isArray) => {
+const makeCalendar = isArray => {
   return isArray
-    ? [new Date(chance.date({string: true})).toISOString(), new Date(chance.date({string: true})).toISOString()]
-    : new Date(chance.date({string: true})).toISOString()
+    ? [
+        new Date(chance.date({ string: true })).toISOString(),
+        new Date(chance.date({ string: true })).toISOString()
+      ]
+    : new Date(chance.date({ string: true })).toISOString()
 }
 
-const makeEamil = (isArray) => {
+const makeEamil = isArray => {
   return isArray
     ? [chance.email(), chance.email(), chance.email(), chance.email()]
     : chance.email()
 }
 
-const makeUrl = (isArray) => {
-  return isArray
-    ? [chance.url(), chance.url(), chance.url()]
-    : chance.url()
+const makeUrl = isArray => {
+  return isArray ? [chance.url(), chance.url(), chance.url()] : chance.url()
 }
 
-const makeAsset = (isArray) => {
+const makeAsset = isArray => {
   const asset = {
     url: makeUrl(false),
     name: makeSingleLineText(false),
     type: 'png'
   }
-  return isArray
-    ? [asset, asset]
-    : asset
+  return isArray ? [asset, asset] : asset
 }
 
 const getConentForType = (component, isArray) => {
-  switch(component) {
+  switch (component) {
     case 'MARKDOWN':
       return makeMarkdown(isArray)
     case 'SINGLE_LINE':
@@ -85,16 +82,33 @@ const getConentForType = (component, isArray) => {
 
 const chance = new Chance()
 
-export const genFakeContent = (infoObject, fields, schemaContext, result = {}) => {
-  return _.reduce(infoObject.fieldsByTypeName, (_result, type, typeName) => {
-    _.forEach(type, (field) => {
-      if (_.isEmpty(field.fieldsByTypeName)) {
-        const fieldInfo = getField(fields, field, typeName, schemaContext)
-        _result[field.name] = getConentForType(fieldInfo.directives.ui.component, fieldInfo.isArray)
-      } else {
-        _result[field.name] = genFakeContent(field, fields, schemaContext, _result)
-      }
-    })
-    return _result
-  }, result)
+export const genFakeContent = (
+  infoObject,
+  fields,
+  schemaContext,
+  result = {}
+) => {
+  return _.reduce(
+    infoObject.fieldsByTypeName,
+    (_result, type, typeName) => {
+      _.forEach(type, field => {
+        if (_.isEmpty(field.fieldsByTypeName)) {
+          const fieldInfo = getField(fields, field, typeName, schemaContext)
+          _result[field.name] = getConentForType(
+            fieldInfo.directives.ui.component,
+            fieldInfo.isArray
+          )
+        } else {
+          _result[field.name] = genFakeContent(
+            field,
+            fields,
+            schemaContext,
+            _result
+          )
+        }
+      })
+      return _result
+    },
+    result
+  )
 }

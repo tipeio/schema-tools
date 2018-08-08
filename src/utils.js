@@ -1,45 +1,53 @@
+import { components } from './constants'
+
 const fieldDefaults = (type, name) =>
   ({
     String: {
       ui: {
         name,
-        component: 'SINGLE_LINE'
+        component: components.TEXT_BOX
       }
     },
     Int: {
       ui: {
         name,
-        component: 'NUMBER_SELECT'
+        component: components.NUMBER_SELECT
       }
     },
     Float: {
       ui: {
         name,
-        component: 'NUMBER_SELECT'
+        component: components.NUMBER_SELECT
       }
     },
     DateTime: {
       ui: {
         name,
-        component: 'CALENDAR'
+        component: components.CALENDAR
       }
     },
     Email: {
       ui: {
         name,
-        component: 'EMAIL_INPUT'
+        component: components.EMAIL
       }
     },
     Url: {
       ui: {
         name,
-        component: 'URL_INPUT'
+        component: components.URL
       }
     },
     Asset: {
       ui: {
         name,
-        component: 'ASSET_PICKER'
+        component: components.ASSET_PICKER
+      }
+    },
+    Link: {
+      ui: {
+        name,
+        component: components.LINK_PICKER
       }
     }
   }[type])

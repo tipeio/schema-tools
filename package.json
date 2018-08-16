@@ -1,6 +1,6 @@
 {
   "name": "@tipe/schema-tools",
-  "version": "0.0.7",
+  "version": "0.0.6",
   "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
@@ -11,8 +11,8 @@
     "restart": "yarn notify && yarn start",
     "notify": "osascript -e 'display notification \"gql app restarted\" with title \"Nodemon\"'",
     "dev": "nodemon --exec yarn restart",
-    "preversion": "yarn test",
-    "postversion": "git push origin master && git push --tags && yarn build",
+    "preversion": "yarn test && yarn build",
+    "postversion": "git push origin master && git push --tags",
     "inspect": "yarn rm && yarn build && node inspect dist/server.js",
     "lint": "eslint --ext .js, src",
     "lint-autofix": "yarn lint --fix",

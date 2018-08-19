@@ -151,7 +151,7 @@ export const createSchema = (schemaString, providedResolvers) => {
   const types = removeOurTypes(schemaTemplateData.types)
   const { models, pages } = seperateTypes(types)
 
-  if (!models.length || !pages.length) {
+  if (!models.length && !pages.length) {
     throw new Error(
       'You must create at least one @type or @page type in your schema'
     )

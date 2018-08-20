@@ -3,6 +3,9 @@
   "version": "0.0.8",
   "main": "dist/index.js",
   "license": "MIT",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "babel src --out-dir dist",
     "start": "yarn rm && yarn build && node dist/start.js",
@@ -11,14 +14,11 @@
     "restart": "yarn notify && yarn start",
     "notify": "osascript -e 'display notification \"gql app restarted\" with title \"Nodemon\"'",
     "dev": "nodemon --exec yarn restart",
-    "preversion": "yarn test && yarn build",
-    "postversion": "git push origin master && git push --tags",
     "inspect": "yarn rm && yarn build && node inspect dist/server.js",
     "lint": "eslint --ext .js, src",
     "lint-autofix": "yarn lint --fix",
     "eslint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
     "precommit": "lint-staged && yarn test",
-    "deploy": "yarn build && yarn publish",
     "travis-deploy-once": "travis-deploy-once --pro",
     "semantic-release": "semantic-release"
   },

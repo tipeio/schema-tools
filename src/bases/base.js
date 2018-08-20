@@ -73,7 +73,9 @@ export class Base {
       this.getBaseSchema(),
       this.typeDefsAst
     )
-    this.schemaContext = createSchemaContext(this.schemaWithoutActions)
+    const schemaCtx = createSchemaContext(this.schemaWithoutActions)
+    this.validateSchemaContext(schemaCtx, this.schemaWithoutActions)
+    this.schemaContext = schemaCtx
 
     return this.readySchemaContext()
   }

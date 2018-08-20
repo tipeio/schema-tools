@@ -53,12 +53,13 @@ export const createResolverForPage = (type, crudResolvers, base) => {
     mutations: {}
   }
 
-  resolvers.queries[type.name] = resolvers.getOne(
-    crudResolvers.getPage,
+  resolvers.queries[type.name] = queries.getOne(
+    crudResolvers.getOne,
     type,
     base.schemaContext,
     base.schemaWithoutActions
   )
+  return resolvers
 }
 
 export const createResolversForType = (type, crudResolvers, base) => {

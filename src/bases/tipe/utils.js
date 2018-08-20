@@ -78,3 +78,11 @@ export const genNames = name => ({
   remove: `remove${pascal(name)}`,
   update: `update${pascal(name)}`
 })
+
+export const isOurType = type => {
+  return (
+    type.hasInterfaces &&
+    type.interfaces.length &&
+    /Document|Page/.test(type.interfaces[0])
+  )
+}

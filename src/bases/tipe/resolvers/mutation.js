@@ -1,3 +1,6 @@
+import { GraphQLInputObjectType } from 'graphql'
+import { createMutationArgs } from '../args'
+
 const { GraphQLNonNull } = require('graphql')
 
 export const create = (resolver, type, schemaContext, schema) => {
@@ -8,6 +11,14 @@ export const create = (resolver, type, schemaContext, schema) => {
         ...{ type, schemaContext, schema },
         info
       })
+    },
+    args: {
+      input: {
+        type: new GraphQLInputObjectType({
+          name: `${type.name}CreateInput`,
+          fields: () => createMutationArgs(type, schema, schemaContext)
+        })
+      }
     },
     type: new GraphQLNonNull(schema.getType(type.name))
   }

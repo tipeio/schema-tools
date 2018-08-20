@@ -86,7 +86,7 @@ export class Base {
 
     return schemaContext.types.reduce((mem, type) => {
       const resolverFns = this.onTypeResolverFn(type, crudResolvers, this)
-      return _.merge({}, resolvers, resolverFns)
+      return _.merge({}, mem, resolverFns)
     }, resolvers)
   }
 
@@ -95,6 +95,7 @@ export class Base {
       typeDefs,
       resolvers
     )
+
     const resolverScehma = new GraphQLSchema({
       query: new GraphQLObjectType({
         name: 'Query',

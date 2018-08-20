@@ -32,14 +32,12 @@ export const getMany = (resolver, type, schemaContext, schema) => {
     args: {
       input: {
         type: new GraphQLInputObjectType({
-          name: 'ManyQueryInput',
+          name: `${type.name}QueryManyInput`,
           fields: () => ({
             where: { type: createWhereArgs(type, schema) },
             order_by: {
               type: new GraphQLList(new GraphQLNonNull(GraphQLString)),
-              description:
-                'List of fields to order the results by. Defaults to ["+updated_at"]',
-              defaultValue: ['+updated_at']
+              description: 'List of fields to order the results by'
             },
             limit: {
               type: GraphQLInt,

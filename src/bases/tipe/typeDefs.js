@@ -28,7 +28,8 @@ scalar LatLong
 scalar Url
 
 interface Page {
-  pageInfo: PageInfo!
+  _pageMeta: PageMeta!
+  _meta: Meta!
 }
 
 interface Document {
@@ -41,11 +42,10 @@ type Asset {
   type: String!
 }
 
-type PageInfo {
+type PageMeta {
   title: String
   description: String
 }
-
 
 type Meta {
   id: ID!

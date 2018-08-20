@@ -1,11 +1,7 @@
+import { isOurType } from './utils'
+
 export const validateSchemaContext = schemaCtx => {
-  const validTypes = schemaCtx.types.filter(type => {
-    return (
-      type.hasInterfaces &&
-      type.interfaces.length === 1 &&
-      /(Document|Page)/.test(type.interfaces[0])
-    )
-  })
+  const validTypes = schemaCtx.types.filter(isOurType)
 
   if (!validTypes.length) {
     throw new Error(

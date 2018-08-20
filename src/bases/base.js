@@ -37,7 +37,7 @@ export const configureConfig = (config, defaultConfig) => {
 }
 
 export class Base {
-  constructor(config) {
+  constructor(config = {}) {
     Object.assign(this, configureConfig(config, defaultConfig))
   }
 

@@ -34,7 +34,7 @@
     "graphql": "^0.13.2",
     "graphql-codegen-core": "^0.10.3",
     "graphql-parse-resolve-info": "^4.0.0-rc.4",
-    "graphql-tools": "^3.0.4",
+    "graphql-tools": "^3.1.1",
     "lodash": "^4.17.10",
     "moment": "^2.22.2",
     "pascal-case": "^2.0.1",

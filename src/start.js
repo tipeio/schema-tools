@@ -1,36 +1,36 @@
 import { ApolloServer } from 'apollo-server'
-import { createSchema } from './generate'
+import { createSchema } from './index'
 
-const types = `
-  type Author {
-    first: String
+const typeDefs = `
+  type Author implements Document {
+    _meta: Meta!
+    first: String!
+      @ui(options: {component: MARKDOWN})
+      @validations(options: {minlength: 30})
   }
 `
 
-const resolve = {
-  resolve() {}
-}
-
-const resolvers = {
+const crudResolvers = {
   getOne() {
-    return resolve
+    return {}
   },
   getMany() {
-    return resolve
+    return {}
   },
-  create() {
-    return resolve
-  },
-  remove() {
-    return resolve
-  },
-  update() {
-    return resolve
-  }
+  create() {},
+  remove() {},
+  update() {}
 }
 
-const schema = createSchema(types, resolvers)
-const server = new ApolloServer({ schema })
+const schema = createSchema({
+  spec: 'tipe',
+  typeDefs,
+  crudResolvers
+})
+const server = new ApolloServer({
+  debug: false,
+  schema
+})
 
 server
   .listen()

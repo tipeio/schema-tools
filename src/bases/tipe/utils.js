@@ -29,28 +29,16 @@ export const fieldDefaults = (type, name) =>
         component: components.CALENDAR
       }
     },
-    Email: {
-      ui: {
-        name,
-        component: components.EMAIL
-      }
-    },
-    Url: {
-      ui: {
-        name,
-        component: components.URL
-      }
-    },
     Asset: {
       ui: {
         name,
-        component: components.ASSET_PICKER
+        component: components.MEDIA
       }
     },
-    Link: {
+    Boolean: {
       ui: {
         name,
-        component: components.LINK_PICKER
+        component: components.TOGGLE
       }
     }
   }[type])

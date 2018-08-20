@@ -1,0 +1,19 @@
+scalar JSON
+directive @Model on OBJECT
+
+type Person {
+  name: String!
+    @validations()
+}
+
+type Query {
+  people: Person
+}
+
+input LadyInput {
+  name: String
+}
+
+type Mutation {
+  newPerson(lady: LadyInput): String!
+}

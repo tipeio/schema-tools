@@ -1,12 +1,27 @@
-import scalars from './scalars'
-import { makeExecutableSchema } from 'graphql-tools'
+import { componentList } from './constants'
+
+const componentEnums = componentList.join('\n')
 
 export const typeDefs = `
-directive @ui(component: String, name: String) on FIELD
-directive @validations(minlength: Int, maxlength: Int) on FIELD
-directive @date(format: String) on FIELD
-directive @type on OBJECT
-directive @page(prodUrl: Url, previewUrl: Url) on OBJECT
+enum COMPONENT {
+  ${componentEnums}
+}
+
+input UIDirectiveInput {
+  component: COMPONENT
+  name: String
+}
+
+input ValidationDirectiveInput {
+  minlength: Int
+  maxlength: Int
+  min: Float
+  max: Float
+  unique: Boolean
+}
+
+directive @ui(options: UIDirectiveInput!) on FIELD
+directive @validations(options: ValidationDirectiveInput!) on FIELD
 
 scalar DateTime
 scalar LatLong
@@ -14,6 +29,10 @@ scalar Url
 
 interface Page {
   pageInfo: PageInfo!
+}
+
+interface Document {
+  _meta: Meta!
 }
 
 type Asset {
@@ -25,6 +44,14 @@ type Asset {
 type PageInfo {
   title: String
   description: String
+}
+
+
+type Meta {
+  id: ID!
+  createdAt: String!
+  updatedAt: String!
+  createdBy: String!
 }
 
 input StringFilterInput {
@@ -94,12 +121,3 @@ input UrlFilterInput {
   _does_not_contain: Url
 }
 `
-export const baseExecutableSchema = makeExecutableSchema({
-  typeDefs: [typeDefs],
-  resolvers: {
-    ...scalars,
-    Page: {
-      __resolveType() {}
-    }
-  }
-})

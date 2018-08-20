@@ -70,7 +70,7 @@ export const UrlScalar = new GraphQLScalarType({
   }
 })
 
-export default {
+export const scalars = {
   LatLong: LatLongScalar,
   DateTime: DateTimeScalar,
   Url: UrlScalar

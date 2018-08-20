@@ -1,4 +1,4 @@
-type Hero @type {
+type Hero @document {
   "This title will be the main text on the her section"
   title: String!
     @ui(
@@ -36,7 +36,7 @@ type Social {
   linkedin: Url
 }
 
-type Author @type {
+type Author @document {
   firstName: String!
   lastName: String!
   socialInfo: Social!
@@ -46,7 +46,7 @@ type Author @type {
     )
 }
 
-type BlogPost @type {
+type BlogPost @document {
   title: String!
   postContent: String!
   author: Author!

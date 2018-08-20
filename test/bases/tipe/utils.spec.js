@@ -1,10 +1,10 @@
-import { mixDefaults, genNames } from '../src/utils.js'
-import { components } from '../src/constants'
+import * as utils from '../../../src/bases/tipe/utils'
+import * as constants from '../../../src/bases/tipe/constants'
 
 describe('utils', () => {
   describe('genNames', () => {
     test('generates correct names', () => {
-      const names = genNames('peson')
+      const names = utils.genNames('peson')
       const props = [
         'name',
         'plural',
@@ -22,7 +22,7 @@ describe('utils', () => {
 
     test('handles multi word names', () => {
       const name = 'big author'
-      const names = genNames(name)
+      const names = utils.genNames(name)
 
       expect(names.name).toBe(name)
       expect(names.plural).toBe('bigAuthors')
@@ -38,15 +38,17 @@ describe('utils', () => {
   describe('mixDefaults', () => {
     test('mix in defaults', () => {
       const field = {
-        type: 'Email',
+        type: 'String',
         name: 'the email of the user',
         usesDirectives: false
       }
-      const newField = mixDefaults(field)
+      const newField = utils.mixDefaults(field)
 
       expect(newField.usesDirectives).toBe(true)
       expect(newField.directives).toBeTruthy()
-      expect(newField.directives.ui.component).toBe(components.EMAIL)
+      expect(newField.directives.ui.component).toBe(
+        constants.components.TEXT_BOX
+      )
       expect(newField.directives.ui.name).toBe(field.name)
     })
 
@@ -62,7 +64,7 @@ describe('utils', () => {
           }
         }
       }
-      const newField = mixDefaults(field)
+      const newField = utils.mixDefaults(field)
 
       expect(newField.usesDirectives).toBe(true)
       expect(newField.directives).toBeTruthy()

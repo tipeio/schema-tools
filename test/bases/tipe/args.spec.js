@@ -80,6 +80,7 @@ describe('tipe spec args', () => {
     })
 
     test('gets types for mutation scalars', () => {
+      expect.assertions(_.size(types))
       const field = {
         isScalar: true,
         isRequired: true

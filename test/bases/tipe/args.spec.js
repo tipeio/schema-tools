@@ -122,7 +122,8 @@ describe('tipe spec args', () => {
             interfaces: ['Document'],
             fields: [{ isType: false, type: 'Boolean', name: 'isStaff' }]
           }
-        ]
+        ],
+        inputs: {}
       }
 
       const result = createMutationArgs(type, schema, schemaContext)

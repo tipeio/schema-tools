@@ -98,9 +98,6 @@ export const createWhereArgs = (type, schema) => {
   return whereType
 }
 
-// TODO: possible memory leak
-const inputTypeCache = {}
-
 export const createMutationArgs = (type, schema, schemaContext) => {
   return type.fields
     .filter(field => {
@@ -123,14 +120,14 @@ export const createMutationArgs = (type, schema, schemaContext) => {
         } else {
           // just a plain ObjecType, no ID because its not a document.
           // must create a new inputType or ref a created one
-          let input = inputTypeCache[fieldType.name]
+          let input = schemaContext.inputs[fieldType.name]
           if (!input) {
             input = new GraphQLInputObjectType({
               name: `${fieldType.name}Input`,
               fields: createMutationArgs(fieldType, schema, schemaContext)
             })
 
-            inputTypeCache[fieldType.name] = input
+            schemaContext.inputs[fieldType.name] = input
           }
           fields[field.name] = {
             type: formatMutation(field)(input)

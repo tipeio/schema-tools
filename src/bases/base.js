@@ -76,6 +76,7 @@ export class Base {
     const schemaCtx = createSchemaContext(this.schemaWithoutActions)
     this.validateSchemaContext(schemaCtx, this.schemaWithoutActions)
     this.schemaContext = schemaCtx
+    this.schemaContext.inputs = {}
 
     return this.readySchemaContext()
   }

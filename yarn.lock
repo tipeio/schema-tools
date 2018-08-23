@@ -3473,7 +3473,7 @@ graphql-extensions@0.1.0-beta.0:
 
 graphql-parse-resolve-info@^4.0.0-rc.4:
   version "4.0.0-rc.4"
-  resolved "https://registry.yarnpkg.com/graphql-parse-resolve-info/-/graphql-parse-resolve-info-4.0.0-rc.4.tgz#3d719fcd94d2e302e3acbf5b4495415b71c6a1d4"
+  resolved "https://registry.npmjs.org/graphql-parse-resolve-info/-/graphql-parse-resolve-info-4.0.0-rc.4.tgz#3d719fcd94d2e302e3acbf5b4495415b71c6a1d4"
   dependencies:
     debug ">=2 <3"
 
@@ -3817,15 +3817,9 @@ into-stream@^3.1.0:
     from2 "^2.1.1"
     p-is-promise "^1.1.0"
 
-invariant@^2.2.0, invariant@^2.2.2:
+invariant@^2.2.0, invariant@^2.2.2, invariant@^2.2.4:
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
-  dependencies:
-    loose-envify "^1.0.0"
-
-invariant@^2.2.4:
-  version "2.2.4"
-  resolved "https://registry.npmjs.org/invariant/-/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
   dependencies:
     loose-envify "^1.0.0"
 

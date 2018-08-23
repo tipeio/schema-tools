@@ -1,14 +1,16 @@
 import { GraphQLInputObjectType } from 'graphql'
 import { createMutationArgs } from '../args'
+import { parseResolveInfo } from 'graphql-parse-resolve-info'
 
 const { GraphQLNonNull } = require('graphql')
 
 export const create = (resolver, type, schemaContext, schema) => {
   return {
     resolve(_, args, ctx = {}, info) {
+      const parsedInfo = parseResolveInfo(info)
       return resolver(_, args, {
         ...ctx,
-        ...{ type, schemaContext, schema },
+        ...{ type, schemaContext, schema, parsedInfo },
         info
       })
     },
@@ -27,9 +29,10 @@ export const create = (resolver, type, schemaContext, schema) => {
 export const remove = (resolver, type, schemaContext, schema) => {
   return {
     resolve(_, args, ctx = {}, info) {
+      const parsedInfo = parseResolveInfo(info)
       return resolver(_, args, {
         ...ctx,
-        ...{ type, schemaContext, schema },
+        ...{ type, schemaContext, schema, parsedInfo },
         info
       })
     },
@@ -39,9 +42,10 @@ export const remove = (resolver, type, schemaContext, schema) => {
 
 export const update = (resolver, type, schemaContext, schema) => ({
   resolve(_, args, ctx = {}, info) {
+    const parsedInfo = parseResolveInfo(info)
     return resolver(_, args, {
       ...ctx,
-      ...{ type, schemaContext, schema },
+      ...{ type, schemaContext, schema, parsedInfo },
       info
     })
   },

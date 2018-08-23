@@ -1,4 +1,5 @@
 import { createWhereArgs } from '../args'
+import { parseResolveInfo } from 'graphql-parse-resolve-info'
 import {
   GraphQLNonNull,
   GraphQLList,
@@ -10,9 +11,10 @@ import {
 export const getOne = (resolver, type, schemaContext, schema) => {
   return {
     resolve(_, args, ctx = {}, info) {
+      const parsedInfo = parseResolveInfo(info)
       return resolver(_, args, {
         ...ctx,
-        ...{ type, schemaContext, schema },
+        ...{ type, schemaContext, schema, parsedInfo },
         info
       })
     },
@@ -23,9 +25,10 @@ export const getOne = (resolver, type, schemaContext, schema) => {
 export const getMany = (resolver, type, schemaContext, schema) => {
   return {
     resolve(_, args, ctx = {}, info) {
+      const parsedInfo = parseResolveInfo(info)
       return resolver(_, args, {
         ...ctx,
-        ...{ type, schemaContext, schema },
+        ...{ type, schemaContext, schema, parsedInfo },
         info
       })
     },

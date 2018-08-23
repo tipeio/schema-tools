@@ -21,6 +21,9 @@ const typeDefs = `
     _meta: Meta!
     addy: Addy!
     hello: String
+    author: Author!
+    authors: [Author]!
+    _authors: [Author!]!
   }
 
   type HomePage implements Page {

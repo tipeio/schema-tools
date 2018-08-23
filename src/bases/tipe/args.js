@@ -119,7 +119,7 @@ export const createMutationArgs = (type, schema, schemaContext) => {
         }
         // is a document or page so the type is just ID for ref
         if (isOurType(fieldType)) {
-          fields[field.name] = { type: GraphQLID }
+          fields[field.name] = { type: formatMutation(field)(GraphQLID) }
         } else {
           // just a plain ObjecType, no ID because its not a document.
           // must create a new inputType or ref a created one

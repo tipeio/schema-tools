@@ -1,3 +1,15 @@
+# [2.1.0](https://github.com/tipeio/schema-tools/compare/v2.0.0...v2.1.0) (2018-08-23)
+
+
+### Bug Fixes
+
+* **args:** fix mutation args for ID types ([1e3825f](https://github.com/tipeio/schema-tools/commit/1e3825f)), closes [#22](https://github.com/tipeio/schema-tools/issues/22)
+
+
+### Features
+
+* **resolvers:** add parsed info to context ([57d7b27](https://github.com/tipeio/schema-tools/commit/57d7b27))
+
 # [2.0.0](https://github.com/tipeio/schema-tools/compare/v1.1.0...v2.0.0) (2018-08-21)
 
 

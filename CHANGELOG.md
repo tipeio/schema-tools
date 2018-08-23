@@ -1,3 +1,10 @@
+## [2.1.1](https://github.com/tipeio/schema-tools/compare/v2.1.0...v2.1.1) (2018-08-23)
+
+
+### Bug Fixes
+
+* **args:** fix memory leak for inputs ([41c706b](https://github.com/tipeio/schema-tools/commit/41c706b)), closes [#19](https://github.com/tipeio/schema-tools/issues/19)
+
 # [2.1.0](https://github.com/tipeio/schema-tools/compare/v2.0.0...v2.1.0) (2018-08-23)
 
 

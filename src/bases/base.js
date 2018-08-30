@@ -1,5 +1,4 @@
 import { makeExecutableSchema, mergeSchemas } from 'graphql-tools'
-import { schemaToTemplateContext } from 'graphql-codegen-core'
 import _ from 'lodash'
 import {
   parse,
@@ -8,6 +7,7 @@ import {
   GraphQLObjectType,
   GraphQLSchema
 } from 'graphql'
+import { schemaToTemplateContext } from './tipe/schemaTemplate'
 
 export const mergeSchemaWithAst = (schema, ast) => extendSchema(schema, ast)
 export const createSchemaContext = schema => schemaToTemplateContext(schema)
@@ -69,6 +69,7 @@ export class Base {
     }
 
     this.typeDefsAst = schemaStringToAst(typeDefs)
+
     this.schemaWithoutActions = mergeSchemaWithAst(
       this.getBaseSchema(),
       this.typeDefsAst

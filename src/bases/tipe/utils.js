@@ -80,9 +80,13 @@ export const genNames = name => ({
 })
 
 export const isOurType = type => {
-  return (
+  return Boolean(
     type.hasInterfaces &&
-    type.interfaces.length &&
-    /Document|Page/.test(type.interfaces[0])
+      type.interfaces.length &&
+      /Document|Page/.test(type.interfaces[0])
   )
 }
+
+export const isPage = type => isOurType(type) && type.interfaces[0] === 'Page'
+export const isDocument = type =>
+  isOurType(type) && type.interfaces[0] === 'Document'

@@ -4,6 +4,7 @@ import { schemaDirectives } from './directives'
 import { typeResolvers } from './typeResolvers'
 import { createResolversForType } from './resolvers'
 import { validateSchemaContext } from './validate'
+import { mapType } from './mapType'
 import { Base } from '../base'
 
 export const createBase = () =>
@@ -14,5 +15,6 @@ export const createBase = () =>
     scalars,
     schemaDirectives,
     typeResolvers,
+    mapType,
     onTypeResolverFn: createResolversForType
   })

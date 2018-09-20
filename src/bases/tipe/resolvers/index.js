@@ -1,4 +1,4 @@
-import { genNames, addDefaults } from '../utils'
+import { genNames, addDefaults, isDocument, isPage } from '../utils'
 import { ourTypes } from '../constants'
 import _ from 'lodash'
 import * as mutations from './mutation'
@@ -69,14 +69,11 @@ export const createResolversForType = (type, crudResolvers, base) => {
 
   const finalType = addDefaults(type)
 
-  if (finalType.hasInterfaces && _.size(finalType.interfaces) === 1) {
-    const i = finalType.interfaces[0]
-    if (i === 'Document') {
-      return createResolverForDocument(finalType, crudResolvers, base)
-    }
-    if (i === 'Page') {
-      return createResolverForPage(finalType, crudResolvers, base)
-    }
+  if (isDocument(finalType)) {
+    return createResolverForDocument(finalType, crudResolvers, base)
+  }
+  if (isPage(finalType)) {
+    return createResolverForPage(finalType, crudResolvers, base)
   }
 
   return { queries: {}, mutations: {} }

@@ -23,8 +23,14 @@ const defaultConfig = {
   schemaDirectives: {},
   directives: {},
   typeResolvers: {},
+  // function to run from custom base to retrieve resolvers
   onTypeResolverFn() {},
+  // function to run to validate schema context
   validateSchemaContext() {},
+  // function to run to modify schema context type
+  mapType(type) {
+    return type
+  },
   schema: null
 }
 
@@ -76,6 +82,7 @@ export class Base {
     const schemaCtx = createSchemaContext(this.schemaWithoutActions)
     this.validateSchemaContext(schemaCtx, this.schemaWithoutActions)
     this.schemaContext = schemaCtx
+    this.schemaContext.types = this.schemaContext.types.map(this.mapType)
     this.schemaContext.inputs = {}
 
     return this.readySchemaContext()

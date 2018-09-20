@@ -72,4 +72,36 @@ describe('utils', () => {
       expect(newField.directives.ui.name).toBe('poop')
     })
   })
+
+  describe('types', () => {
+    test('isOurType', () => {
+      let doc = { hasInterfaces: true, interfaces: ['Document'] }
+      let page = { hasInterfaces: true, interfaces: ['Page'] }
+      expect(utils.isOurType(doc)).toBe(true)
+      expect(utils.isOurType(page)).toBe(true)
+
+      doc = { hasInterfaces: true, interfaces: ['Document', 'Page'] }
+      page = { hasInterfaces: true, interfaces: ['Page', 'Document'] }
+      expect(utils.isOurType(doc)).toBe(true)
+      expect(utils.isOurType(page)).toBe(true)
+
+      doc = { hasInterfaces: false, interfaces: ['Document', 'Page'] }
+      page = { hasInterfaces: false, interfaces: ['Page', 'Document'] }
+      expect(utils.isOurType(doc)).toBe(false)
+      expect(utils.isOurType(page)).toBe(false)
+
+      doc = { hasInterfaces: true, interfaces: ['Poop'] }
+      page = { hasInterfaces: true, interfaces: [] }
+      expect(utils.isOurType(doc)).toBe(false)
+      expect(utils.isOurType(page)).toBe(false)
+    })
+    test('isDocument', () => {
+      const type = { hasInterfaces: true, interfaces: ['Document'] }
+      expect(utils.isDocument(type)).toBe(true)
+    })
+    test('isPage', () => {
+      const type = { hasInterfaces: true, interfaces: ['Page'] }
+      expect(utils.isPage(type)).toBe(true)
+    })
+  })
 })

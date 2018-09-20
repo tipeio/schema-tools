@@ -12,11 +12,15 @@ export const getOne = (resolver, type, schemaContext, schema) => {
   return {
     resolve(_, args, ctx = {}, info) {
       const parsedInfo = parseResolveInfo(info)
-      return resolver(_, args, {
-        ...ctx,
-        ...{ type, schemaContext, schema, parsedInfo },
+      return resolver(
+        _,
+        args,
+        {
+          ...ctx,
+          ...{ type, schemaContext, parsedInfo }
+        },
         info
-      })
+      )
     },
     type: new GraphQLNonNull(schema.getType(type.name))
   }
@@ -26,11 +30,15 @@ export const getMany = (resolver, type, schemaContext, schema) => {
   return {
     resolve(_, args, ctx = {}, info) {
       const parsedInfo = parseResolveInfo(info)
-      return resolver(_, args, {
-        ...ctx,
-        ...{ type, schemaContext, schema, parsedInfo },
+      return resolver(
+        _,
+        args,
+        {
+          ...ctx,
+          ...{ type, schemaContext, parsedInfo }
+        },
         info
-      })
+      )
     },
     args: {
       input: {

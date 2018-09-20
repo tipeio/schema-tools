@@ -1,4 +1,4 @@
-import { genNames, addDefaults, isDocument, isPage } from '../utils'
+import { genNames, isDocument, isPage } from '../utils'
 import { ourTypes } from '../constants'
 import _ from 'lodash'
 import * as mutations from './mutation'
@@ -63,17 +63,16 @@ export const createResolverForPage = (type, crudResolvers, base) => {
 }
 
 export const createResolversForType = (type, crudResolvers, base) => {
+  // don't create resolvers for Types we provide in the foundational schema like Page and Document
   if (_.has(ourTypes, type.name)) {
     return { queries: {}, mutations: {} }
   }
 
-  const finalType = addDefaults(type)
-
-  if (isDocument(finalType)) {
-    return createResolverForDocument(finalType, crudResolvers, base)
+  if (isDocument(type)) {
+    return createResolverForDocument(type, crudResolvers, base)
   }
-  if (isPage(finalType)) {
-    return createResolverForPage(finalType, crudResolvers, base)
+  if (isPage(type)) {
+    return createResolverForPage(type, crudResolvers, base)
   }
 
   return { queries: {}, mutations: {} }

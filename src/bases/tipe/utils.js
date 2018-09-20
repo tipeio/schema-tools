@@ -40,29 +40,29 @@ export const fieldDefaults = (type, name) =>
         name,
         component: components.TOGGLE
       }
+    },
+    ID: {
+      ui: {
+        name,
+        component: components.READONLY_TEXT
+      }
     }
   }[type])
 
 // TODO: need to validate if the type can use given component
-export const mixDefaults = field => {
+export const enhanceField = field => {
   const { type, name } = field
   const defaults = fieldDefaults(type, name)
-
+  const directives = {
+    ...defaults,
+    ...field.directives
+  }
   return {
     ...field,
-    directives: {
-      ...defaults,
-      ...field.directives
-    },
-    usesDirectives: true
-  }
-}
-
-export const addDefaults = abstractType => {
-  const fields = abstractType.fields.map(mixDefaults)
-  return {
-    ...abstractType,
-    fields
+    directives,
+    usesDirectives: true,
+    validations: directives.validations || {},
+    ui: directives.ui || {}
   }
 }
 
@@ -88,5 +88,7 @@ export const isOurType = type => {
 }
 
 export const isPage = type => isOurType(type) && type.interfaces[0] === 'Page'
+export const isInline = type => !isOurType(type)
 export const isDocument = type =>
-  isOurType(type) && type.interfaces[0] === 'Document'
+  (isOurType(type) && type.interfaces[0] === 'Document') ||
+  type.name === 'Asset'

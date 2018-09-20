@@ -35,14 +35,14 @@ describe('utils', () => {
     })
   })
 
-  describe('mixDefaults', () => {
+  describe('enhanceField', () => {
     test('mix in defaults', () => {
       const field = {
         type: 'String',
         name: 'the email of the user',
         usesDirectives: false
       }
-      const newField = utils.mixDefaults(field)
+      const newField = utils.enhanceField(field)
 
       expect(newField.usesDirectives).toBe(true)
       expect(newField.directives).toBeTruthy()
@@ -64,7 +64,7 @@ describe('utils', () => {
           }
         }
       }
-      const newField = utils.mixDefaults(field)
+      const newField = utils.enhanceField(field)
 
       expect(newField.usesDirectives).toBe(true)
       expect(newField.directives).toBeTruthy()

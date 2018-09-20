@@ -11,7 +11,8 @@ export const components = {
   MULTI_SELECT: 'MULTI_SELECT',
   DOCUMENT: 'DOCUMENT',
   LIST: 'LIST',
-  GROUP: 'GROUP'
+  GROUP: 'GROUP',
+  READONLY_TEXT: 'READONLY_TEXT'
 }
 
 export const componentList = [
@@ -27,7 +28,8 @@ export const componentList = [
   components.MULTI_SELECT,
   components.DOCUMENT,
   components.LIST,
-  components.GROUP
+  components.GROUP,
+  components.READONLY_TEXT
 ]
 
 export const ourTypes = { PageInfo: false, Asset: false }

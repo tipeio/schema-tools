@@ -1,3 +1,10 @@
+# [2.2.0](https://github.com/tipeio/schema-tools/compare/v2.1.1...v2.2.0) (2018-09-20)
+
+
+### Features
+
+* **meta:** add type meta to types ([84b1866](https://github.com/tipeio/schema-tools/commit/84b1866))
+
 ## [2.1.1](https://github.com/tipeio/schema-tools/compare/v2.1.0...v2.1.1) (2018-08-23)
 
 

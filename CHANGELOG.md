@@ -1,3 +1,10 @@
+# [2.3.0](https://github.com/tipeio/schema-tools/compare/v2.2.0...v2.3.0) (2018-09-20)
+
+
+### Features
+
+* **fields:** add helpful meta to fields ([3144c53](https://github.com/tipeio/schema-tools/commit/3144c53))
+
 # [2.2.0](https://github.com/tipeio/schema-tools/compare/v2.1.1...v2.2.0) (2018-09-20)
 
 

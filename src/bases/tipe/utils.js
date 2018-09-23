@@ -57,12 +57,15 @@ export const enhanceField = field => {
     ...defaults,
     ...field.directives
   }
+
+  const { validations = {}, ui = {} } = directives
+
   return {
     ...field,
     directives,
     usesDirectives: true,
-    validations: directives.validations || {},
-    ui: directives.ui || {}
+    validations: validations.options || {},
+    ui: ui.options || {}
   }
 }
 

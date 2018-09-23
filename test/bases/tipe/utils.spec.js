@@ -59,8 +59,10 @@ describe('utils', () => {
         usesDirectives: true,
         directives: {
           ui: {
-            component: 'HELLO',
-            name: 'poop'
+            options: {
+              component: 'HELLO',
+              name: 'poop'
+            }
           }
         }
       }
@@ -68,8 +70,38 @@ describe('utils', () => {
 
       expect(newField.usesDirectives).toBe(true)
       expect(newField.directives).toBeTruthy()
-      expect(newField.directives.ui.component).toBe('HELLO')
-      expect(newField.directives.ui.name).toBe('poop')
+      expect(newField.directives.ui.options.component).toBe('HELLO')
+      expect(newField.directives.ui.options.name).toBe('poop')
+    })
+
+    test('adds meta for directives correctly', () => {
+      const ui = {
+        name: 'first name',
+        component: 'TEXT_BOX'
+      }
+      const validations = {
+        minLength: 6
+      }
+      const field = {
+        type: 'String',
+        name: 'firstName',
+        usesDirectives: true,
+        directives: {
+          ui: {
+            options: ui
+          },
+          validations: { options: validations }
+        }
+      }
+      const newField = utils.enhanceField(field)
+      expect(newField.ui).toEqual(ui)
+      expect(newField.validations).toEqual(validations)
+
+      field.directives.ui = {}
+      field.directives.validations = {}
+      const other = utils.enhanceField(field)
+      expect(other.ui).toEqual({})
+      expect(other.validations).toEqual({})
     })
   })
 

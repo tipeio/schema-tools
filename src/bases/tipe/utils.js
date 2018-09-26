@@ -1,4 +1,5 @@
 import { components } from './constants'
+import _ from 'lodash'
 const pascal = require('pascal-case')
 const camel = require('camel-case')
 const pluralize = require('pluralize')
@@ -7,44 +8,58 @@ export const fieldDefaults = (type, name) =>
   ({
     String: {
       ui: {
-        name,
-        component: components.TEXT_BOX
+        options: {
+          name,
+          component: components.TEXT_BOX
+        }
       }
     },
     Int: {
       ui: {
-        name,
-        component: components.NUMBER_SELECT
+        options: {
+          name,
+          component: components.NUMBER_SELECT
+        }
       }
     },
     Float: {
       ui: {
-        name,
-        component: components.NUMBER_SELECT
+        options: {
+          name,
+          component: components.NUMBER_SELECT
+        }
       }
     },
     DateTime: {
       ui: {
-        name,
-        component: components.CALENDAR
+        options: {
+          name,
+          component: components.CALENDAR
+        }
       }
     },
     Asset: {
       ui: {
-        name,
-        component: components.MEDIA
+        options: {
+          name,
+          component: components.MEDIA
+        }
       }
     },
     Boolean: {
       ui: {
-        name,
-        component: components.TOGGLE
+        options: {
+          name,
+          component: components.TOGGLE
+        }
       }
     },
     ID: {
       ui: {
-        name,
-        component: components.READONLY_TEXT
+        options: {
+          name,
+          component: components.READONLY_TEXT
+        }
       }
     }
   }[type])
@@ -53,10 +68,7 @@ export const fieldDefaults = (type, name) =>
 export const enhanceField = field => {
   const { type, name } = field
   const defaults = fieldDefaults(type, name)
-  const directives = {
-    ...defaults,
-    ...field.directives
-  }
+  const directives = _.merge({}, defaults, field.directives)
 
   const { validations = {}, ui = {} } = directives
 

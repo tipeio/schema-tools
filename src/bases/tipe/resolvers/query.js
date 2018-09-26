@@ -5,7 +5,7 @@ import {
   GraphQLList,
   GraphQLString,
   GraphQLInt,
-  GraphQLInputObjectType
+  GraphQLID
 } from 'graphql'
 
 export const getOne = (resolver, type, schemaContext, schema) => {
@@ -17,10 +17,18 @@ export const getOne = (resolver, type, schemaContext, schema) => {
         args,
         {
           ...ctx,
-          ...{ type, schemaContext, parsedInfo }
+          type,
+          schemaContext,
+          parsedInfo
         },
         info
       )
+    },
+    args: {
+      id: {
+        type: new GraphQLNonNull(GraphQLID),
+        description: `ID of the ${type.name}`
+      }
     },
     type: new GraphQLNonNull(schema.getType(type.name))
   }
@@ -35,35 +43,32 @@ export const getMany = (resolver, type, schemaContext, schema) => {
         args,
         {
           ...ctx,
-          ...{ type, schemaContext, parsedInfo }
+          type,
+          schemaContext,
+          parsedInfo
         },
         info
       )
     },
     args: {
-      input: {
-        type: new GraphQLInputObjectType({
-          name: `${type.name}QueryManyInput`,
-          fields: () => ({
-            where: { type: createWhereArgs(type, schema) },
-            order_by: {
-              type: new GraphQLList(new GraphQLNonNull(GraphQLString)),
-              description: 'List of fields to order the results by'
-            },
-            limit: {
-              type: GraphQLInt,
-              description:
-                'Maximum number of results to return. Defaults to 50',
-              defaultValue: 50
-            },
-            skip: {
-              type: GraphQLInt,
-              description:
-                'For pagination, how many items to skip to continue the next page',
-              defaultValue: 0
-            }
-          })
-        })
+      where: {
+        type: createWhereArgs(type, schema),
+        description: `Advanced filtering by ${type.name} fields`
+      },
+      order_by: {
+        type: new GraphQLList(new GraphQLNonNull(GraphQLString)),
+        description: 'List of fields to order the results by'
+      },
+      limit: {
+        type: GraphQLInt,
+        description: 'Maximum number of results to return. Defaults to 50',
+        defaultValue: 50
+      },
+      skip: {
+        type: GraphQLInt,
+        description:
+          'For pagination, how many items to skip to continue the next page',
+        defaultValue: 0
       }
     },
     type: new GraphQLNonNull(new GraphQLList(schema.getType(type.name)))

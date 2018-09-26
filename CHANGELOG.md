@@ -1,3 +1,10 @@
+# [2.5.0](https://github.com/tipeio/schema-tools/compare/v2.4.0...v2.5.0) (2018-09-26)
+
+
+### Features
+
+* **resolvers:** add id args for one ([9adff4f](https://github.com/tipeio/schema-tools/commit/9adff4f))
+
 # [2.4.0](https://github.com/tipeio/schema-tools/compare/v2.3.1...v2.4.0) (2018-09-26)
 
 

@@ -47,11 +47,20 @@ type PageMeta {
   description: String
 }
 
+"User who created the document"
+type DocumentCreator {
+  id: ID!
+  email: String!
+  firstName: String
+  lastName: String
+  avatar: String
+}
+
 type Meta {
   id: ID!
+  name: String!
   createdAt: String!
-  updatedAt: String!
-  createdBy: String!
+  createdBy: DocumentCreator!
 }
 
 input StringFilterInput {

@@ -1,3 +1,15 @@
+# [2.4.0](https://github.com/tipeio/schema-tools/compare/v2.3.1...v2.4.0) (2018-09-26)
+
+
+### Bug Fixes
+
+* **parser:** add field name default ([7862a42](https://github.com/tipeio/schema-tools/commit/7862a42))
+
+
+### Features
+
+* **typeDefs:** add type for createdBy ([eb388c0](https://github.com/tipeio/schema-tools/commit/eb388c0))
+
 ## [2.3.1](https://github.com/tipeio/schema-tools/compare/v2.3.0...v2.3.1) (2018-09-23)
 
 # [2.3.0](https://github.com/tipeio/schema-tools/compare/v2.2.0...v2.3.0) (2018-09-20)

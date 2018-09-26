@@ -46,10 +46,10 @@ describe('utils', () => {
 
       expect(newField.usesDirectives).toBe(true)
       expect(newField.directives).toBeTruthy()
-      expect(newField.directives.ui.component).toBe(
+      expect(newField.directives.ui.options.component).toBe(
         constants.components.TEXT_BOX
       )
-      expect(newField.directives.ui.name).toBe(field.name)
+      expect(newField.directives.ui.options.name).toBe(field.name)
     })
 
     test('does not override existing', () => {
@@ -100,8 +100,31 @@ describe('utils', () => {
       field.directives.ui = {}
       field.directives.validations = {}
       const other = utils.enhanceField(field)
-      expect(other.ui).toEqual({})
+      expect(other.ui).toEqual({ name: 'firstName', component: 'TEXT_BOX' })
       expect(other.validations).toEqual({})
+    })
+
+    test('defaults to field name for ui name', () => {
+      const ui = {
+        component: 'TEXT_BOX'
+      }
+      const validations = {
+        minLength: 6
+      }
+      const name = 'firstName'
+      const field = {
+        name,
+        type: 'String',
+        usesDirectives: true,
+        directives: {
+          ui: {
+            options: ui
+          },
+          validations: { options: validations }
+        }
+      }
+      const newField = utils.enhanceField(field)
+      expect(newField.ui.name).toBe(name)
     })
   })
 

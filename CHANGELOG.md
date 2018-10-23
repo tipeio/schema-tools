@@ -1,3 +1,10 @@
+# [2.6.0](https://github.com/tipeio/schema-tools/compare/v2.5.0...v2.6.0) (2018-10-23)
+
+
+### Features
+
+* isAsset ([d3ee1f1](https://github.com/tipeio/schema-tools/commit/d3ee1f1))
+
 # [2.5.0](https://github.com/tipeio/schema-tools/compare/v2.4.0...v2.5.0) (2018-09-26)
 
 

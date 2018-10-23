@@ -104,6 +104,6 @@ export const isOurType = type => {
 
 export const isPage = type => isOurType(type) && type.interfaces[0] === 'Page'
 export const isInline = type => !isOurType(type)
+export const isAsset = type => type.name === 'Asset'
 export const isDocument = type =>
-  (isOurType(type) && type.interfaces[0] === 'Document') ||
-  type.name === 'Asset'
+  isOurType(type) && type.interfaces[0] === 'Document'

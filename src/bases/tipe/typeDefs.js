@@ -36,10 +36,24 @@ interface Document {
   _meta: Meta!
 }
 
-type Asset {
-  url: Url!
+input AssetOptions {
+  h: String
+  w: String
+  q: String
+  compress: String
+  fit: String
+  trim: String
+  name: String
+  auto: String
+}
+
+type Asset implements Document {
+  url(options: AssetOptions): Url!
+  key: String!
   name: String!
-  type: String!
+  mime: String!
+  size: Int!
+  _meta: Meta!
 }
 
 type PageMeta {

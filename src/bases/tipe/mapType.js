@@ -1,4 +1,4 @@
-import { isPage, isDocument, isInline, enhanceField } from './utils'
+import { isPage, isDocument, isInline, isAsset, enhanceField } from './utils'
 
 export const mapType = type => {
   if (isPage(type)) {
@@ -7,6 +7,8 @@ export const mapType = type => {
     type.isDocument = true
   } else if (isInline(type)) {
     type.isInline = true
+  } else if (isAsset(type)) {
+    type.isAsset = true
   }
   // add metadata from directives to fields
   type.fields = (type.fields || []).map(enhanceField)
